@@ -7,7 +7,7 @@
     
   },
   "publishConfig": {
-    "registry": "http://npm-sorskoot.westeurope.azurecontainer.io:4873/"
+    "@sorskoot:registry": "https://npm.pkg.github.com"
   },
   "keywords": ["Wonderland"],
   "author": "Sorskoot",
