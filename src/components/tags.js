@@ -1,9 +1,9 @@
-import {Component} from '@wonderlandengine/api';
+import {Component, Type} from '@wonderlandengine/api';
 
 export class Tags extends Component {
     static TypeName = 'tags';
     static Properties = {
-        tags: {type: WL.Type.String},
+        tags: {type: Type.String},
     }
 
     /**

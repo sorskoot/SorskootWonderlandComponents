@@ -1,17 +1,17 @@
-import { Component } from '@wonderlandengine/api';
+import { Component, Type } from '@wonderlandengine/api';
 
 const handedness = ['left', 'right']
 
 export class ShootBase extends Component {
     static TypeName = 'shoot-base';
     static Properties = {
-        haptics: { type: WL.Type.Bool, default: true },
-        handedness: { type: WL.Type.Enum, values: ['Left', 'Right'], default: 'Left' }
+        haptics: { type: Type.Bool, default: true },
+        handedness: { type: Type.Enum, values: ['Left', 'Right'], default: 'Left' }
     }
 
     start() {
         this.initialized = false;
-        WL.onXRSessionStart.push((session) => {
+        this.engine.onXRSessionStart.add((session) => {
             if (this.initialized) return;
             session.addEventListener('select', (e) => {
                 if (!this.active) return;
@@ -20,7 +20,7 @@ export class ShootBase extends Component {
                         this.pulse(e.inputSource.gamepad);
                     }
                     // todo pass current position and rotation to shoot
-                    this.shoot(this.object.transformWorld, this.object.rotationWorld);
+                    this.shoot(this.object.getPositionWorld(), this.object.getRotationWorld());
                 }
             });
             this.initialized = true;

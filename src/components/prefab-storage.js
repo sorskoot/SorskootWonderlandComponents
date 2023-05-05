@@ -1,4 +1,4 @@
-import {Component} from '@wonderlandengine/api';
+import {Component, Object3D} from '@wonderlandengine/api';
 
 export class PrefabStorage extends Component {
     static TypeName = 'prefab-storage';
@@ -16,7 +16,7 @@ export class PrefabStorage extends Component {
             let childPrefab = child.getComponent('prefab');
             if(childPrefab){
                 this.prefabs[childPrefab.name] = child;
-                child.setTranslationWorld([-1000,-1000,-1000]);         
+                child.setPositionWorld([-1000,-1000,-1000]);         
             }
         }
     }
@@ -25,8 +25,8 @@ export class PrefabStorage extends Component {
      * Instantiate a prefab.
      * 
      * @param {string} prefabName Name of the prefab to instantiate.
-     * @param {WL.Object} parentObject The object to parent the prefab to after instantiation.
-     * @returns {WL.Object} The root of the instantiated prefab.
+     * @param {Object3D} parentObject The object to parent the prefab to after instantiation.
+     * @returns {Object3D} The root of the instantiated prefab.
      */
     instantiate(prefabName, parentObject){
         let prefab = this.prefabs[prefabName];
@@ -36,13 +36,13 @@ export class PrefabStorage extends Component {
         }                
 
         
-        let obj =  WL.scene.addObject(parentObject);
+        let obj =  this.engine.scene.addObject(parentObject);
         obj.name = prefabName;
         // var temp = [0, 0, 0];
         // prefab.getTranslationWorld(temp);
         // obj.setTranslationWorld(temp);        
-        obj.scale(prefab.scalingLocal);
-        obj.transformLocal.set(prefab.transformLocal);        
+        obj.scaleLocal(prefab.scalingLocal);
+        obj.setTransformLocal(prefab.transformLocal);        
         
         var prefabMesh = prefab.getComponent('mesh');
         if(prefabMesh){
