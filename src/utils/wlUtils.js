@@ -142,6 +142,12 @@ export function cloneObject(engine, object, cache) {
                         speed: components[i].speed
                     });
         } else {
+            const c = comp.find(c => c.type == components[i].type && c.active == false);
+            if(c){
+                c.active = true;
+            }else{
+                cloned.addComponent(components[i].type, components[i]);
+            }
             // var c = JSON.parse(JSON.stringify(components[i]))
             // delete(c,'_id');
             // delete(c,'_manager');
