@@ -1,4 +1,3 @@
-import { vec3, quat } from 'gl-matrix';
 import { ObjectCache } from './ObjectCache';
 import { Object3D, WonderlandEngine } from '@wonderlandengine/api';
 
@@ -164,7 +163,7 @@ export function cloneObject(engine, object, cache) {
     cloned.name = object.name;
     if (object.children.length > 0) {
         for (let i = 0; i < object.children.length; i++) {
-            let childClone = cloneObject(object.children[i], cache);
+            let childClone = cloneObject(engine, object.children[i], cache);
             childClone.parent = cloned;
         }
     }

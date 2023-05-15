@@ -1,0 +1,14 @@
+"postinstall": "npm run ./scripts/package-shaders.js",
+
+
+And then in your ./scripts/package-shaders.js, you would have something like (pseudocode):
+
+import {writeFile} from 'fs';
+import {resolve, filename} from 'path';
+
+const outputFolder = ...;
+const shadersList = readShaders();
+
+for (const file of shadersList) {
+    writeFile(resolve(outputFolder, filename(file.path)), file.content);  
+}
