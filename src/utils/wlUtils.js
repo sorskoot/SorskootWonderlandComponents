@@ -24,13 +24,13 @@ export function cloneObject(engine, object, cache) {
     }
 
     if (!cloned) {
+        console.error("no cache available, cloning object");
         cloned = engine.scene.addObject(object.parent);
     }
 
     let components = object.getComponents();
+    const comp = cloned.getComponents();
     for (let i = 0; i < components.length; i++) {
-        const comp = cloned.getComponents();
-
         if (components[i].type == "mesh") {
             const m = comp.find(c => c.type == 'mesh' && c.active == false);
             if (m) {
@@ -46,44 +46,6 @@ export function cloneObject(engine, object, cache) {
                 });
             }
         }
-        if (components[i].type == "mesh") {
-            const m = comp.find(c => c.type == 'mesh' && c.active == false);
-            if (m) {
-                m.mesh = components[i].mesh;
-                m.material = components[i].material;
-                m.skin = components[i].skin;
-                m.active = true;
-            } else {
-                cloned.addComponent('mesh', {
-                    mesh: components[i].mesh,
-                    material: components[i].material,
-                    skin: components[i].skin
-                });
-            }
-        }
-        // else if (components[i].type == "mesh-particles") {
-        //     const c = comp.find(c => c.type == 'mesh-particles' && c.active == false);
-        //     if (c) {
-        //         c.mesh = components[i].mesh;
-        //         c.material = components[i].material;
-        //         c.delay = components[i].delay;
-        //         c.maxParticles = components[i].maxParticles;
-        //         c.initialSpeed = components[i].initialSpeed;
-        //         c.particleScale = components[i].particleScale;
-        //         c.spread = components[i].spread;
-        //         c.active = true;
-        //     } else {
-        //         cloned.addComponent('mesh-particles', {
-        //             mesh: components[i].mesh,
-        //             material: components[i].material,
-        //             delay: components[i].delay,
-        //             maxParticles: components[i].maxParticles,
-        //             initialSpeed: components[i].initialSpeed,
-        //             particleScale: components[i].particleScale,
-        //             spread: components[i].spread
-        //         });
-        //     }
-        // }
         else if (components[i].type == "collision") {
             const c = comp.find(c => c.type == 'collision' && c.active == false);
             if (c) {
