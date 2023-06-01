@@ -1,12 +1,12 @@
-import { Component, Type } from '@wonderlandengine/api';
+import { Component, Property } from '@wonderlandengine/api';
 
 const handedness = ['left', 'right']
 
 export class ShootBase extends Component {
     static TypeName = 'shoot-base';
     static Properties = {
-        haptics: { type: Type.Bool, default: true },
-        handedness: { type: Type.Enum, values: ['Left', 'Right'], default: 'Left' }
+        haptics: Property.bool(true),
+        handedness: Property.enum(['Left', 'Right'])
     }
 
     start() {

@@ -1,6 +1,6 @@
 {
   "name": "@sorskoot/wonderland-components",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Collection of personal components for Wonderland Engine",
   "main": "src/index.js",
   "scripts": {

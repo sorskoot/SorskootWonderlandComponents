@@ -1,1 +1,2 @@
-Private collection of Components for Wonderland Engine
+Collection of Components and utilities that Sorskoot uses in his Wonderland Engine games.
+

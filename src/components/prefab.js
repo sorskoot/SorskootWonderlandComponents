@@ -1,8 +1,8 @@
-import {Component, Type} from '@wonderlandengine/api';
+import {Component, Property} from '@wonderlandengine/api';
 
 export class Prefab extends Component {
     static TypeName = 'prefab';
     static Properties = {
-        name: {type: Type.String},
+        name: Property.string(),
     }
 };

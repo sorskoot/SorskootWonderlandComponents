@@ -1,23 +1,23 @@
-import {Component, Object3D, Type} from '@wonderlandengine/api';
+import {Component, Object3D, Property} from '@wonderlandengine/api';
 import {quat2, vec3} from 'gl-matrix';
 
 export class SnowParticles extends Component {
     static TypeName = 'snow-particles';
     static Properties = {
     /* Mesh for spawned particles */
-    mesh: {type: Type.Mesh, default: null},
+    mesh: Property.mesh(),
     /* Material for spawned particles */
-    material: {type: Type.Material, default: null},
+    material: Property.material(),
     /* Delay between particle spawns. If below time of a frame, will spawn multiple particles in update. */
-    delay: {type: Type.Float, default: 0.1},
+    delay: Property.float(0.1),
     /* Maximum number of particles, once limit is reached, particles are recycled first-in-first-out. */
-    maxParticles: {type: Type.Int, default: 1500},
+    maxParticles: Property.int(1500),
     /* Initial speed of emitted particles. */
-    initialSpeed: {type: Type.Float, default: 15},
+    initialSpeed: Property.float(15),
     /* Size of a particle */
-    particleScale: {type: Type.Float, default: 0.01},
+    particleScale: Property.float(0.01),
     /* Size of the area to spawn in meters */
-    size: {type: Type.Int, default: 16}
+    size: Property.int(16)
     }
 
     init() {

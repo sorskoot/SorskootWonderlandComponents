@@ -1,4 +1,4 @@
-import { Component, Type, Texture } from "@wonderlandengine/api";
+import { Component, Property, Texture } from "@wonderlandengine/api";
 
 class DynamicTextureCache {
   constructor(engine) {
@@ -57,12 +57,12 @@ let textureCache;
 export class Flipbook extends Component {
   static TypeName = "flipbook";
   static Properties = {
-    base: { type: Type.Material },
-    url: { type: Type.String, default: "" },
-    urlEmissive: { type: Type.String, default: "" },
-    columns: { type: Type.Int, default: 4 },
-    rows: { type: Type.Int, default: 4 },
-    speed: { type: Type.Float, default: 8.0 },
+    base: Property.material(),
+    url: Property.string(""),
+    urlEmissive: Property.string(""),
+    columns: Property.int(4),
+    rows: Property.int(4),
+    speed: Property.float(8.0),
   };
 
   init() {
