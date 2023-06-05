@@ -1,6 +1,6 @@
 {
   "name": "@sorskoot/wonderland-components",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Collection of personal components for Wonderland Engine",
   "wonderlandengine": {},  
   "main": "./dist/index.js",
@@ -14,7 +14,14 @@
     "prepublish": "tsc"
   },
   "files": [
-    "dist"],
+    "dist/*.js",
+    "dist/utils/*.js",
+    "dist/components/*.js",
+    "dist/*.d.ts",
+    "dist/utils/*.d.ts",
+    "dist/components/*.d.ts"
+  ],
+
   "publishConfig": {
     "@sorskoot:registry": "https://npm.pkg.github.com"
   },
