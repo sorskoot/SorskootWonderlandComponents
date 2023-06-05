@@ -1,4 +1,4 @@
-import rng from "./rng.js";
+import {rng} from "./rng.js";
 
 /**
  * Shuffles array in place. ES6 version

@@ -1,4 +1,4 @@
-import rng from "./rng.js";
+import {rng} from "./rng.js";
 
 /**
  * Gets a random element from the given array with the given weights.

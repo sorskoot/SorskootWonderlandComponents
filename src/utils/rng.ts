@@ -5,7 +5,7 @@
 
  const FRAC = 2.3283064365386963e-10; /* 2^-32 */
 
- class RNG {
+export class RNG {
      _seed = 0;
      _s0 = 0;
      _s1 = 0;
