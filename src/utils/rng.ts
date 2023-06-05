@@ -153,4 +153,4 @@
      }
  }
  
- export default new RNG().setSeed(Date.now());
+ export const rng = new RNG().setSeed(Date.now());
