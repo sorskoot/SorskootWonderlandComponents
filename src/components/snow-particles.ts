@@ -1,43 +1,48 @@
-import {Component, Object3D, Property} from '@wonderlandengine/api';
+import {Component, Object3D, MeshComponent, Mesh, Material} from '@wonderlandengine/api';
+import { property } from "@wonderlandengine/api/decorators.js";
+
 import {quat2, vec3} from 'gl-matrix';
 
 export class SnowParticles extends Component {
     static TypeName = 'snow-particles';
-    static Properties = {
-    /* Mesh for spawned particles */
-    mesh: Property.mesh(),
-    /* Material for spawned particles */
-    material: Property.material(),
-    /* Delay between particle spawns. If below time of a frame, will spawn multiple particles in update. */
-    delay: Property.float(0.1),
-    /* Maximum number of particles, once limit is reached, particles are recycled first-in-first-out. */
-    maxParticles: Property.int(1500),
-    /* Initial speed of emitted particles. */
-    initialSpeed: Property.float(15),
-    /* Size of a particle */
-    particleScale: Property.float(0.01),
-    /* Size of the area to spawn in meters */
-    size: Property.int(16)
-    }
 
-    init() {
-        this.time = 0.0;
-        this.count = 0;
-    }
+    @property.mesh()
+    mesh!: Mesh;
+
+    @property.material()
+    material!: Material;
+
+    @property.float(0.1)
+    delay!: number;
+
+    @property.int(1500)
+    maxParticles!: number;
+
+    @property.float(15)
+    initialSpeed!: number;
+
+    @property.float(0.01)
+    particleScale!: number;
+
+    @property.int(16)
+    size!: number;
+
+    time:number = 0.0;
+    count:number = 0;
 
     /**
      * @type {Object3D[]}
      */
-    #objects;
+    #objects:Object3D[] = [];
     
     /**
     * @type {number[][]}
     */
-    #velocities;
+    #velocities:vec3[] = [];
 
-    #speeds;
+    #speeds:number[] = [];
 
-    #direction;
+    #direction:number[] = [0, 0, 0];
 
     start() {
         
@@ -48,10 +53,10 @@ export class SnowParticles extends Component {
             this.#velocities.push([Math.random()/4-.125, -Math.random()-.2, Math.random()/4-.125]);
             let obj = this.#objects[i];
             obj.name = "particle" + this.count.toString();
-            let mesh = obj.addComponent('mesh');
+            let mesh = obj.addComponent(MeshComponent);
 
-            mesh.mesh = this.mesh;
-            mesh.material = this.material;
+            mesh!.mesh = this.mesh;
+            mesh!.material = this.material;
             /* Most efficient way to hide the mesh */
             obj.scaleLocal([0, 0, 0]);
         }
@@ -63,11 +68,11 @@ export class SnowParticles extends Component {
         
     }
 
-    update(dt) {
+    update(dt:number) {
    
         /* Target for retrieving particles world locations */
-        let origin = [0, 0, 0];
-        let distance = [0, 0, 0];
+        let origin = vec3.fromValues(0, 0, 0);
+        let distance = vec3.fromValues(0, 0, 0);
 
         for(let i = 0; i < Math.min(this.count, this.#objects.length); ++i) {
             /* Get translation first, as object.translate() will mark
@@ -111,7 +116,7 @@ export class SnowParticles extends Component {
         obj.scaleLocal([this.particleScale, this.particleScale, this.particleScale]);
 
         /* Activate component, otherwise it will not show up! */
-        obj.getComponent('mesh').active = true;
+        obj.getComponent(MeshComponent)!.active = true;
 
         obj.translateWorld([(Math.random()*this.size)-(this.size/2),(Math.random()*5),(Math.random()*this.size)-(this.size/2)]);
    

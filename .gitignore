@@ -110,3 +110,5 @@ imgui.ini
 **_Bake*
 **.asd
 
+# build output
+dist

@@ -1,4 +1,4 @@
-import rng from "./rng";
+import rng from "./rng.js";
 
 /**
  * Gets a random element from the given array with the given weights.
@@ -6,7 +6,7 @@ import rng from "./rng";
  * @param {[]} itemsWithWeights array of weights, should be as longs as the array
  * @returns
  */
-export function rngWithWeight(array, itemsWithWeights) {
+export function rngWithWeight(array: [], itemsWithWeights: []) {
   // Calculate the total weight of all items.
   let totalWeight = itemsWithWeights.reduce((total, itemWithWeight) => {
     return total + itemWithWeight;

@@ -18,7 +18,7 @@
       * Seed the number generator
       * @type {number} seed - Seed value
       */
-     setSeed(seed) {
+     setSeed(seed:number) {
          seed = (seed < 1 ? 1/seed : seed);
  
          this._seed = seed;
@@ -51,7 +51,7 @@
       * @param {number} upperBound The upper end of the range to return a value from, inclusive
       * @returns Pseudorandom value [lowerBound, upperBound], using ROT.RNG.getUniform() to distribute the value
       */
-     getUniformInt(lowerBound, upperBound) {
+     getUniformInt(lowerBound: number, upperBound: number) {
          let max = Math.max(lowerBound, upperBound);
          let min = Math.min(lowerBound, upperBound);
          return Math.floor(this.getUniform() * (max - min + 1)) + min;
@@ -85,7 +85,7 @@
       * @param {Array} array Array to pick a random item from
       * @returns Randomly picked item, null when length=0
       */
-     getItem(array) {
+     getItem(array: Array<any>) {
          if (!array.length) { return null; }
          return array[Math.floor(this.getUniform() * array.length)];
      }
@@ -94,7 +94,7 @@
       * @param {Array} array Array to randomize
       * @returns New array with randomized items
       */
-     shuffle(array) {
+     shuffle(array: Array<any>) {
          let result = [];
          let clone = array.slice();
          while (clone.length) {
@@ -108,7 +108,7 @@
       * @param {Object} data key = whatever, value=weight (relative probability)
       * @returns whatever
       */
-     getWeightedValue(data) {
+     getWeightedValue(data: any) {
          let total = 0;
          
          for (let id in data) {
@@ -136,7 +136,7 @@
      /**
       * Set a previously retrieved state.
       */
-     setState(state) {
+     setState(state:number[]) {
          this._s0 = state[0];
          this._s1 = state[1];
          this._s2 = state[2];

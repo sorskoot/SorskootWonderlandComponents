@@ -2,10 +2,11 @@ import { Component, Object3D, WonderlandEngine } from "@wonderlandengine/api";
 
 export class ObjectCache {
 
-    /**
-    * @type {Object3D[]}
-    */
-    #objects;
+    #objects:Object3D[];
+    engine: WonderlandEngine;
+    name: string;
+    cacheSize: number;
+    index: number;
 
     /**
      * 
@@ -15,8 +16,7 @@ export class ObjectCache {
      * @param {Object3D} parent 
      * @param {number} components 
      */
-
-    constructor(engine, name, cacheSize, parent, components) {
+    constructor(engine: WonderlandEngine, name: string, cacheSize: number, parent: Object3D, components: number) {
         this.engine = engine;
         this.name = name;
         console.log(`creating cache: ${name} with ${cacheSize} elements`);

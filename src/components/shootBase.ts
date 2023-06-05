@@ -1,13 +1,22 @@
-import { Component, Property } from '@wonderlandengine/api';
+import { Component } from '@wonderlandengine/api';
+import { property } from "@wonderlandengine/api/decorators.js";
 
 const handedness = ['left', 'right']
 
+interface QuestGamepadHapticActuator extends GamepadHapticActuator {
+    pulse(value: number, duration: number): void;
+}
+
 export class ShootBase extends Component {
     static TypeName = 'shoot-base';
-    static Properties = {
-        haptics: Property.bool(true),
-        handedness: Property.enum(['Left', 'Right'])
-    }
+
+    @property.bool(true)
+    haptics: boolean = true;
+
+    @property.enum(['Left', 'Right'])
+    handedness: number = 0;
+
+    initialized: boolean = false;
 
     start() {
         this.initialized = false;
@@ -27,13 +36,13 @@ export class ShootBase extends Component {
         })
     }
 
-    pulse(gamepad) {
+    pulse(gamepad:Gamepad|undefined) {
         var actuator;
         if (!gamepad || !gamepad.hapticActuators) { return; }
-        actuator = gamepad.hapticActuators[0];
+        actuator = gamepad.hapticActuators[0] as QuestGamepadHapticActuator;
         if (!actuator) return;
         actuator.pulse(1, 100);
     }
 
-    shoot(transform, rotation) { }
+    shoot(transform:Float32Array|number[], rotation:Float32Array|number[]) { }
 };
