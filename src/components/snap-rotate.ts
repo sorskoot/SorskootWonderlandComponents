@@ -1,4 +1,4 @@
-import { Component,Object3D, InputComponent } from "@wonderlandengine/api";
+import { Component, Object3D, InputComponent } from "@wonderlandengine/api";
 import { property } from "@wonderlandengine/api/decorators.js";
 import { vec3 } from "gl-matrix";
 
@@ -11,20 +11,25 @@ export class SnapRotate extends Component {
   @property.int(30)
   degrees!: number;
 
-  input:InputComponent|null = null;
-  snapped:boolean = false;
+  input: InputComponent | null = null;
+  snapped: boolean = false;
 
   start() {
     this.input = this.object.getComponent(InputComponent);
     this.snapped = false;
   }
 
-  update(dt:number) {
-    if (!this.input || !this.input.xrInputSource) {
+  update(dt: number) {
+    if (
+      !this.input ||
+      !this.input.xrInputSource ||
+      !this.input.xrInputSource.gamepad ||
+      !this.input.xrInputSource.gamepad.axes
+    ) {
       return;
     }
 
-    const currentAxis = this.input.xrInputSource.gamepad!.axes[2];
+    const currentAxis = this.input.xrInputSource.gamepad.axes[2];
 
     if (currentAxis > -0.2 && currentAxis < 0.2) {
       this.snapped = false;
