@@ -11,7 +11,7 @@ export declare class Flipbook extends Component {
     loaded: boolean;
     index: number;
     init(): void;
-    createMaterial(base: Material, texture: Texture, emissiveTexture?: Texture | null): any;
+    createMaterial(base: Material, texture: Texture, emissiveTexture?: Texture | null): Material;
     mat: MeshComponent | null;
     t: number;
     start(): void;

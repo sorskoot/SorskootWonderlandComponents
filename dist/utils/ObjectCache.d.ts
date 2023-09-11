@@ -15,5 +15,5 @@ export declare class ObjectCache {
      */
     constructor(engine: WonderlandEngine, name: string, cacheSize: number, parent: Object3D, components: number);
     reset(): void;
-    getItem(): any;
+    getItem(): Object3D | undefined;
 }
