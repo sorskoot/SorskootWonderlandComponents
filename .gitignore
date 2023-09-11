@@ -82,7 +82,7 @@ typings/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# dist
 
 # Gatsby files
 .cache/
@@ -111,4 +111,4 @@ imgui.ini
 **.asd
 
 # build output
-dist
+# dist
