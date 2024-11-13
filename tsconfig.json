@@ -1,21 +1,16 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "outDir": "dist",
-    "declaration": true,
-    "newLine": "LF",
-    "allowJs": true,
-    "strict": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": [
-    "src/**/*.ts",
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "nodenext",
+        "outDir": "dist",
+        "declaration": true,
+        "newLine": "LF",
+        "allowJs": true,
+        "strict": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": ["src/**/*.ts", "src/types/globals.d.ts"],
+    "exclude": ["node_modules", "dist"]
 }

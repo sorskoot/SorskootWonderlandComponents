@@ -1,41 +1,38 @@
 {
-  "name": "@sorskoot/wonderland-components",
-  "version": "1.1.7",
-  "description": "Collection of personal components for Wonderland Engine",
-  "wonderlandengine": {},  
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
-  },
-  "scripts": {
-    "prepublish": "tsc"
-  },
-  "files": [
-    "dist/*.js",
-    "dist/utils/*.js",
-    "dist/components/*.js",
-    "dist/*.d.ts",
-    "dist/utils/*.d.ts",
-    "dist/components/*.d.ts"
-  ],
-
-  "publishConfig": {
-    "@sorskoot:registry": "https://npm.pkg.github.com"
-  },
-  "keywords": [
-    "Wonderland-engine",
-    "Sorskoot"
-  ],
-  "author": "Sorskoot",
-  "license": "MIT",
-  "dependencies": {
-    "@wonderlandengine/api": "^1.1.0",
-    "gl-matrix": "^3.4.3"
-  },
-  "devDependencies": {
-    "typescript": "^5.1.3"
-  }
+    "name": "@sorskoot/wonderland-components",
+    "version": "1.1.8",
+    "description": "Collection of personal components for Wonderland Engine",
+    "wonderlandengine": {},
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "type": "module",
+    "exports": {
+        ".": "./dist/index.js"
+    },
+    "scripts": {
+        "prepack": "tsc"
+    },
+    "files": [
+        "dist/*.js",
+        "dist/utils/*.js",
+        "dist/components/*.js",
+        "dist/*.d.ts",
+        "dist/utils/*.d.ts",
+        "dist/components/*.d.ts",
+        "shaders/*.*"
+    ],
+    "keywords": [
+        "Wonderland-engine",
+        "Sorskoot"
+    ],
+    "author": "Sorskoot",
+    "license": "MIT",
+    "dependencies": {
+        "@wonderlandengine/api": "^1.2.4",
+        "gl-matrix": "^3.4.3"
+    },
+    "devDependencies": {
+        "typescript": "^5.6.3"
+    }
 }

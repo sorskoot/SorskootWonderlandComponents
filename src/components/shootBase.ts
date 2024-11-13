@@ -1,11 +1,7 @@
-import { Component } from '@wonderlandengine/api';
-import { property } from "@wonderlandengine/api/decorators.js";
+import {Component} from '@wonderlandengine/api';
+import {property} from '@wonderlandengine/api/decorators.js';
 
-const handedness = ['left', 'right']
-
-interface QuestGamepadHapticActuator extends GamepadHapticActuator {
-    pulse(value: number, duration: number): void;
-}
+const handedness = ['left', 'right'];
 
 export class ShootBase extends Component {
     static TypeName = 'shoot-base';
@@ -29,20 +25,25 @@ export class ShootBase extends Component {
                         this.pulse(e.inputSource.gamepad);
                     }
                     // todo pass current position and rotation to shoot
-                    this.shoot(this.object.getPositionWorld(), this.object.getRotationWorld());
+                    this.shoot(
+                        this.object.getPositionWorld(),
+                        this.object.getRotationWorld()
+                    );
                 }
             });
             this.initialized = true;
-        })
+        });
     }
 
-    pulse(gamepad:Gamepad|undefined) {
+    pulse(gamepad: Gamepad | undefined) {
         var actuator;
-        if (!gamepad || !gamepad.hapticActuators) { return; }
-        actuator = gamepad.hapticActuators[0] as QuestGamepadHapticActuator;
+        if (!gamepad || !gamepad.hapticActuators) {
+            return;
+        }
+        actuator = gamepad.hapticActuators[0];
         if (!actuator) return;
         actuator.pulse(1, 100);
     }
 
-    shoot(transform:Float32Array|number[], rotation:Float32Array|number[]) { }
-};
+    shoot(transform: Float32Array | number[], rotation: Float32Array | number[]) {}
+}

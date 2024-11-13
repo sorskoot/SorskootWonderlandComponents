@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component } from '@wonderlandengine/api';
-import { property } from "@wonderlandengine/api/decorators.js";
+import { property } from '@wonderlandengine/api/decorators.js';
 const handedness = ['left', 'right'];
 export class ShootBase extends Component {
     static TypeName = 'shoot-base';
@@ -49,4 +49,3 @@ __decorate([
 __decorate([
     property.enum(['Left', 'Right'])
 ], ShootBase.prototype, "handedness", void 0);
-;
