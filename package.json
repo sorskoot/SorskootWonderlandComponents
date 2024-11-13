@@ -2,6 +2,14 @@
     "name": "@sorskoot/wonderland-components",
     "version": "1.1.8",
     "description": "Collection of personal components for Wonderland Engine",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sorskoot/SorskootWonderlandComponents.git"
+    },
+    "bugs": {
+        "url": "https://github.com/sorskoot/SorskootWonderlandComponents/issues"
+    },
+    "homepage": "https://timmykokke.com",
     "wonderlandengine": {},
     "main": "./dist/index.js",
     "module": "./dist/index.js",
@@ -23,10 +31,13 @@
         "shaders/*.*"
     ],
     "keywords": [
-        "Wonderland-engine",
-        "Sorskoot"
+        "wonderland-engine",
+        "wonderland",
+        "sorskoot",
+        "webxr",
+        "components"
     ],
-    "author": "Sorskoot",
+    "author": "Timmy Kokke / Sorskoot",
     "license": "MIT",
     "dependencies": {
         "@wonderlandengine/api": "^1.2.4",
