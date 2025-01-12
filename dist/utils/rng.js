@@ -9,13 +9,15 @@ export class RNG {
     _s1 = 0;
     _s2 = 0;
     _c = 0;
-    getSeed() { return this._seed; }
+    getSeed() {
+        return this._seed;
+    }
     /**
      * Seed the number generator
      * @type {number} seed - Seed value
      */
     setSeed(seed) {
-        seed = (seed < 1 ? 1 / seed : seed);
+        seed = seed < 1 ? 1 / seed : seed;
         this._seed = seed;
         this._s0 = (seed >>> 0) * FRAC;
         seed = (seed * 69069 + 1) >>> 0;
@@ -58,7 +60,7 @@ export class RNG {
             v = 2 * this.getUniform() - 1;
             r = u * u + v * v;
         } while (r > 1 || r == 0);
-        let gauss = u * Math.sqrt(-2 * Math.log(r) / r);
+        let gauss = u * Math.sqrt((-2 * Math.log(r)) / r);
         return mean + gauss * stddev;
     }
     /**
@@ -115,7 +117,9 @@ export class RNG {
      * Get RNG state. Useful for storing the state and re-setting it via setState.
      * @returns Internal state
      */
-    getState() { return [this._s0, this._s1, this._s2, this._c]; }
+    getState() {
+        return [this._s0, this._s1, this._s2, this._c];
+    }
     /**
      * Set a previously retrieved state.
      */

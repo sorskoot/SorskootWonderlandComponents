@@ -19,7 +19,10 @@
         ".": "./dist/index.js"
     },
     "scripts": {
-        "prepack": "tsc"
+        "build": "tsc",
+        "build:watch": "tsc --watch",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+        "prepack": "npm run build"
     },
     "files": [
         "dist/**/*.d.ts",

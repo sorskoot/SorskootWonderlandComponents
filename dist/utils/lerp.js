@@ -48,6 +48,20 @@ export const Easing = {
             return (Math.pow(2 * t - 2, 3) + 2) / 2;
         }
     },
+    /**
+     * Hermite easing function.
+     * @param t A value between 0 and 1 representing the progress of the animation.
+     * @returns A value that is a smooth, S-shaped curve that smoothly interpolates between 0 and 1.
+     */
+    Hermite: (t) => t * t * (3 - 2 * t),
+    /**
+     * Custom bezier curve type function.
+     * @param t A value between 0 and 1 representing the progress of the animation.
+     * @returns A value that starts fast, then slows down, then speeds up again.
+     */
+    BumpEasing: (t) => {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    },
 };
 /**
  * Performs linear interpolation with optional easing function on two numeric values
@@ -58,22 +72,37 @@ export const Easing = {
  * @return Interpolated result based on provided inputs
  */
 export function lerp(start, end, t, easing = Easing.Linear) {
-    if (typeof easing === "function") {
+    if (typeof easing === 'function') {
         easing = getEasingFunction(easing);
     }
     return start * (1 - easing(t)) + end * easing(t);
 }
-function getEasingFunction(type) {
-    // Default to linear interpolation
-    return typeof type === "function" ? type : Easing.Linear;
+export function lerpVec3(out, start, end, t, easing = Easing.Linear) {
+    if (typeof easing === 'function') {
+        easing = getEasingFunction(easing);
+    }
+    for (let i = 0; i < 3; i++) {
+        out[i] = start[i] * (1 - easing(t)) + end[i] * easing(t);
+    }
+    return out;
+}
+export function lerpArr(out, start, end, t, easing = Easing.Linear) {
+    if (typeof easing === 'function') {
+        easing = getEasingFunction(easing);
+    }
+    for (let i = 0; i < start.length; i++) {
+        out[i] = start[i] * (1 - easing(t)) + end[i] * easing(t);
+    }
+    return out;
 }
 /**
- * Clamps input value to provided minimum & maximum range
- * @param value Numeric input for clamping operation
- * @param min Minimum allowed result after clamping )
- * @param max Maximum allowed result after clamping
- * @return Resulting output within specified constraint range [min,max]
+ * Returns the easing function based on the given type.
+ * If the type is a function, it is returned as is.
+ * If the type is not a function, the default linear easing function is returned.
+ * @param type - The type of easing function to get.
+ * @returns The easing function.
  */
-export function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
+function getEasingFunction(type) {
+    // Default to linear interpolation
+    return typeof type === 'function' ? type : Easing.Linear;
 }

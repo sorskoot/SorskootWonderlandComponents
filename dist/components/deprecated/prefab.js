@@ -6,18 +6,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { Component } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
-export class SelfDestruct extends Component {
-    static TypeName = 'self-destruct';
-    lifeTime = 1.0;
-    _time = 0;
-    start() { }
-    update(dt) {
-        this._time += dt;
-        if (!this.object.isDestroyed && this._time > this.lifeTime) {
-            this.object.destroy();
-        }
-    }
+/**
+ * @depricated Use Prefered Wonderland way
+ */
+export class Prefab extends Component {
+    static TypeName = 'prefab';
+    name;
 }
 __decorate([
-    property.float(1.0)
-], SelfDestruct.prototype, "lifeTime", void 0);
+    property.string()
+], Prefab.prototype, "name", void 0);

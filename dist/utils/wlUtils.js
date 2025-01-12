@@ -63,6 +63,23 @@ function getComponentOfType(object, type) {
     return getComponentsOfType(object, type)[0];
 }
 /**
+ * The normal GetComponents does not work well with inheritance. This function
+ * does. This function is recursive and gets all components of the given type
+ * from the object and all its children.
+ * @param object The object to get the components from.
+ * @param type The type of component to get.
+ * @returns An array of components of the given type.
+ */
+function getComponentsOfTypeRecursive(object, type) {
+    const result = [];
+    const components = object.getComponents().filter((c) => c instanceof type);
+    result.push(...components);
+    for (const child of object.children) {
+        result.push(...getComponentsOfTypeRecursive(child, type));
+    }
+    return result;
+}
+/**
  * Recursively sets the active state of the given object and all its children.
  * @param object The object to set the active state of.
  * @param active The state to set.
@@ -92,5 +109,6 @@ export const wlUtils = {
     setActive,
     getComponentOfType,
     getComponentsOfType,
+    getComponentsOfTypeRecursive,
     destroyWithDelay,
 };

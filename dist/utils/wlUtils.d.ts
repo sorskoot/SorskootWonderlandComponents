@@ -42,6 +42,15 @@ declare function findComponentInParents<T extends Component>(typeOrClass: Compon
 declare function getComponentsOfType<T extends Component>(object: Object3D, type: ComponentConstructor<T>): T[];
 declare function getComponentOfType<T extends Component>(object: Object3D, type: ComponentConstructor<T>): T;
 /**
+ * The normal GetComponents does not work well with inheritance. This function
+ * does. This function is recursive and gets all components of the given type
+ * from the object and all its children.
+ * @param object The object to get the components from.
+ * @param type The type of component to get.
+ * @returns An array of components of the given type.
+ */
+declare function getComponentsOfTypeRecursive<T extends Component>(object: Object3D, type: ComponentConstructor<T>): T[];
+/**
  * Recursively sets the active state of the given object and all its children.
  * @param object The object to set the active state of.
  * @param active The state to set.
@@ -56,6 +65,7 @@ export declare const wlUtils: {
     setActive: typeof setActive;
     getComponentOfType: typeof getComponentOfType;
     getComponentsOfType: typeof getComponentsOfType;
+    getComponentsOfTypeRecursive: typeof getComponentsOfTypeRecursive;
     destroyWithDelay: typeof destroyWithDelay;
 };
 export {};
