@@ -95,6 +95,28 @@ function getComponentOfType<T extends Component>(
 ): T {
     return getComponentsOfType(object, type)[0];
 }
+
+/**
+ * The normal GetComponents does not work well with inheritance. This function
+ * does. This function is recursive and gets all components of the given type
+ * from the object and all its children.
+ * @param object The object to get the components from.
+ * @param type The type of component to get.
+ * @returns An array of components of the given type.
+ */
+function getComponentsOfTypeRecursive<T extends Component>(
+    object: Object3D,
+    type: ComponentConstructor<T>
+): T[] {
+    const result: T[] = [];
+    const components = object.getComponents().filter((c) => c instanceof type) as T[];
+    result.push(...components);
+    for (const child of object.children) {
+        result.push(...getComponentsOfTypeRecursive(child, type));
+    }
+
+    return result;
+}
 /**
  * Recursively sets the active state of the given object and all its children.
  * @param object The object to set the active state of.
@@ -126,5 +148,6 @@ export const wlUtils = {
     setActive,
     getComponentOfType,
     getComponentsOfType,
+    getComponentsOfTypeRecursive,
     destroyWithDelay,
 };

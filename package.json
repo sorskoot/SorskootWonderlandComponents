@@ -22,12 +22,8 @@
         "prepack": "tsc"
     },
     "files": [
-        "dist/*.js",
-        "dist/utils/*.js",
-        "dist/components/*.js",
-        "dist/*.d.ts",
-        "dist/utils/*.d.ts",
-        "dist/components/*.d.ts",
+        "dist/**/*.d.ts",
+        "dist/**/*.js",
         "shaders/*.*"
     ],
     "keywords": [
