@@ -8,16 +8,16 @@ import { Component } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
 export class SelfDestruct extends Component {
     static TypeName = 'self-destruct';
-    /**
-     * Time until the object is destroyed
-     */
-    timer = 2500;
-    start() {
-        setTimeout(() => {
+    lifeTime = 1.0;
+    _time = 0;
+    start() { }
+    update(dt) {
+        this._time += dt;
+        if (!this.object.isDestroyed && this._time > this.lifeTime) {
             this.object.destroy();
-        }, this.timer);
+        }
     }
 }
 __decorate([
-    property.float(2500)
-], SelfDestruct.prototype, "timer", void 0);
+    property.float(1.0)
+], SelfDestruct.prototype, "lifeTime", void 0);

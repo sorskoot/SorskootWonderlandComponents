@@ -42,12 +42,39 @@ declare function findComponentInParents<T extends Component>(typeOrClass: Compon
 declare function getComponentsOfType<T extends Component>(object: Object3D, type: ComponentConstructor<T>): T[];
 declare function getComponentOfType<T extends Component>(object: Object3D, type: ComponentConstructor<T>): T;
 /**
+ * The normal GetComponents does not work well with inheritance. This function
+ * does. This function is recursive and gets all components of the given type
+ * from the object and all its children.
+ * @param object The object to get the components from.
+ * @param type The type of component to get.
+ * @returns An array of components of the given type.
+ */
+declare function getComponentsOfTypeRecursive<T extends Component>(object: Object3D, type: ComponentConstructor<T>): T[];
+/**
  * Recursively sets the active state of the given object and all its children.
  * @param object The object to set the active state of.
  * @param active The state to set.
  */
 declare function setActive(object: Object3D, active: boolean): void;
 declare function destroyWithDelay(object: Object3D, delay: number): void;
+/**
+ * Checks if the given object has a component of the given type.
+ * @param object The object to check. If a component is given, the object of the component is used.
+ * @param type The component type to check for.
+ * @returns True if the object has a component of the given type.
+ */
+declare function hasComponent(object: Object3D | Component, type: ComponentConstructor<Component>): boolean;
+/**
+ * Calls the specified method on every Component attached to the Object.
+ *
+ * A value parameter specified for a method that doesn't accept parameters is ignored.
+ * If requireReceiver is set to true an error is printed if the message is not picked up by any component.
+ * Note: Messages are not sent to components attached to objects that are not active.
+ *
+ * This functions is used to in a similar way to Unity's SendMessage function.
+ * https://docs.unity3d.com/ScriptReference/GameObject.SendMessage.html
+ */
+export declare function sendMessage(object: Object3D, methodName: string, value?: any, requireReceiver?: boolean): void;
 export declare const wlUtils: {
     cloneObject: typeof cloneObject;
     findChild: typeof findChild;
@@ -56,6 +83,9 @@ export declare const wlUtils: {
     setActive: typeof setActive;
     getComponentOfType: typeof getComponentOfType;
     getComponentsOfType: typeof getComponentsOfType;
+    getComponentsOfTypeRecursive: typeof getComponentsOfTypeRecursive;
     destroyWithDelay: typeof destroyWithDelay;
+    hasComponent: typeof hasComponent;
+    sendMessage: typeof sendMessage;
 };
 export {};
