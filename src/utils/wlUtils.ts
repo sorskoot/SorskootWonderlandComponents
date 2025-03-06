@@ -140,6 +140,60 @@ function destroyWithDelay(object: Object3D, delay: number) {
         }
     }, delay);
 }
+
+/**
+ * Checks if the given object has a component of the given type.
+ * @param object The object to check. If a component is given, the object of the component is used.
+ * @param type The component type to check for.
+ * @returns True if the object has a component of the given type.
+ */
+function hasComponent(
+    object: Object3D | Component,
+    type: ComponentConstructor<Component>
+): boolean {
+    if (object instanceof Component) {
+        object = object.object;
+    }
+    return object.getComponents().some((c) => c instanceof type);
+}
+
+/**
+ * Calls the specified method on every Component attached to the Object.
+ *
+ * A value parameter specified for a method that doesn't accept parameters is ignored.
+ * If requireReceiver is set to true an error is printed if the message is not picked up by any component.
+ * Note: Messages are not sent to components attached to objects that are not active.
+ *
+ * This functions is used to in a similar way to Unity's SendMessage function.
+ * https://docs.unity3d.com/ScriptReference/GameObject.SendMessage.html
+ */
+export function sendMessage(
+    object: Object3D,
+    methodName: string,
+    value?: any,
+    requireReceiver: boolean = true
+): void {
+    let isCalled = false;
+
+    const components = object.getComponents(Component);
+
+    for (const component of components) {
+        if (component.active) {
+            const method = (component as any)[methodName];
+            if (method && typeof method === 'function') {
+                method.call(component, value);
+                isCalled = true;
+            }
+        }
+    }
+
+    if (requireReceiver && !isCalled) {
+        console.warn(
+            `No receiver found for message '${methodName}' on object '${object.name}'`
+        );
+    }
+}
+
 export const wlUtils = {
     cloneObject,
     findChild,
@@ -150,4 +204,6 @@ export const wlUtils = {
     getComponentsOfType,
     getComponentsOfTypeRecursive,
     destroyWithDelay,
+    hasComponent,
+    sendMessage,
 };

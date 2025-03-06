@@ -40,6 +40,13 @@ export declare class RNG {
      */
     getItem(array: Array<any>): any;
     /**
+     * Gets random unique items from an array
+     * @param array the array to get items from
+     * @param amount the amount of items to get
+     * @returns the random item; null if the array is empty
+     */
+    getItems<T>(array: T[], amount: number): T[];
+    /**
      * @param {Array} array Array to randomize
      * @returns New array with randomized items
      */
@@ -54,6 +61,8 @@ export declare class RNG {
      * @returns Internal state
      */
     getState(): number[];
+    randomNonRepeatingValues(min: number, max: number, valueCount: number): number[];
+    shuffleArray<T>(array: T[]): void;
     /**
      * Set a previously retrieved state.
      */

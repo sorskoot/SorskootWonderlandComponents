@@ -18,3 +18,26 @@ export function* waitForCondition(conditionFn) {
         yield;
     }
 }
+/**
+ * Waits for a promise to resolve before continuing.
+ * @param promise the promise to wait for
+ */
+export function* waitForPromise(promise) {
+    let isResolved = false;
+    let result;
+    let error;
+    promise.then((res) => {
+        isResolved = true;
+        result = res;
+    }, (err) => {
+        isResolved = true;
+        error = err;
+    });
+    while (!isResolved) {
+        yield;
+    }
+    if (error) {
+        throw error;
+    }
+    return result;
+}

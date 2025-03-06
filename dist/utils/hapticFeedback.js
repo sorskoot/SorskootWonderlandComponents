@@ -15,3 +15,20 @@ export function hapticFeedback(object, strength, duration) {
         }
     }
 }
+/**
+ * vibrate the device if possible
+ */
+export function vibrateDevice(amount = 10) {
+    // check if the user has interacted with the page
+    if (navigator.userActivation.hasBeenActive) {
+        if ('vibrate' in navigator) {
+            try {
+                navigator.vibrate(amount);
+            }
+            catch (e) {
+                // log any errors, but don't crash the app, it's not worth it
+                console.log(e);
+            }
+        }
+    }
+}

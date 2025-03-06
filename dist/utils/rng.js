@@ -80,6 +80,25 @@ export class RNG {
         return array[Math.floor(this.getUniform() * array.length)];
     }
     /**
+     * Gets random unique items from an array
+     * @param array the array to get items from
+     * @param amount the amount of items to get
+     * @returns the random item; null if the array is empty
+     */
+    getItems(array, amount) {
+        if (!array.length) {
+            return [];
+        }
+        if (amount > array.length) {
+            amount = array.length;
+        }
+        const result = new Set();
+        while (result.size < amount) {
+            result.add(array[Math.floor(this.getUniform() * array.length)]);
+        }
+        return Array.from(result);
+    }
+    /**
      * @param {Array} array Array to randomize
      * @returns New array with randomized items
      */
@@ -119,6 +138,28 @@ export class RNG {
      */
     getState() {
         return [this._s0, this._s1, this._s2, this._c];
+    }
+    randomNonRepeatingValues(min, max, valueCount) {
+        const count = max - min;
+        const values = new Array(count);
+        for (let x = 0; x < count; x++) {
+            values[x] = x + min;
+        }
+        this.shuffleArray(values);
+        let results = [];
+        for (let x = 0; x < valueCount && x < values.length; x++) {
+            results.push(values[x]);
+        }
+        return results;
+    }
+    shuffleArray(array) {
+        // shuffle array
+        for (let x = array.length - 1; x >= 0; x--) {
+            let index = this.getUniformInt(0, x); // Second argument is inclusive
+            const temp = array[x];
+            array[x] = array[index];
+            array[index] = temp;
+        }
     }
     /**
      * Set a previously retrieved state.
