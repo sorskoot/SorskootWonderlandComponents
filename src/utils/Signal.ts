@@ -1,45 +1,56 @@
+import {Assert} from './asserts.js';
 
-export const STOP_PROPAGATION = "stop_propagation" as const;
+export const STOP_PROPAGATION = 'stop_propagation' as const;
 export type STOP_PROPAGATION = typeof STOP_PROPAGATION;
 
 export type SignalReceiver<T extends unknown[]> = (...args: T) => STOP_PROPAGATION | void;
 
+/**
+ * Signal implementation for event handling.
+ * Allows adding and removing listeners that get called when the signal is dispatched.
+ */
 export class Signal<T extends unknown[] = []> {
-    public receivers: { receiver: SignalReceiver<T>; scope: object }[] = [];
-    public modifyCount: number = 0;
+    private _receivers: {receiver: SignalReceiver<T>; scope: object}[] = [];
+    private _modifyCount: number = 0;
 
     /**
      * Adds a new signal listener
+     * @param receiver - The function to call when the signal is dispatched
+     * @param scope - The scope to apply when calling the receiver
      */
-    add(receiver: SignalReceiver<T>, scope: object = null) {
-        assert(receiver, "receiver is null");
-        this.receivers.push({ receiver, scope });
-        ++this.modifyCount;
+    public add(receiver: SignalReceiver<T>, scope: object): void {
+        Assert.isNotNull(receiver);
+        this._receivers.push({receiver, scope});
+        ++this._modifyCount;
     }
 
     /**
-     * Adds a new signal listener
+     * Adds a new signal listener to the top of the stack
+     * @param receiver - The function to call when the signal is dispatched
+     * @param scope - The scope to apply when calling the receiver
      */
-    addToTop(receiver: SignalReceiver<T>, scope: object = null) {
-        assert(receiver, "receiver is null");
-        this.receivers.unshift({ receiver, scope });
-        ++this.modifyCount;
+    public addToTop(receiver: SignalReceiver<T>, scope: object): void {
+        Assert.isNotNull(receiver);
+        this._receivers.unshift({receiver, scope});
+        ++this._modifyCount;
     }
 
     /**
-     * Dispatches the signal
+     * Dispatches the signal to all receivers
+     * @param payload - Arguments to pass to the receivers
+     * @returns STOP_PROPAGATION if propagation was stopped, void otherwise
      */
-    dispatch(...payload: T): void | STOP_PROPAGATION {
-        const modifyState = this.modifyCount;
+    public dispatch(...payload: T): void | STOP_PROPAGATION {
+        const modifyState = this._modifyCount;
 
-        const n = this.receivers.length;
+        const n = this._receivers.length;
         for (let i = 0; i < n; ++i) {
-            const { receiver, scope } = this.receivers[i];
+            const {receiver, scope} = this._receivers[i];
             if (receiver.apply(scope, payload) === STOP_PROPAGATION) {
                 return STOP_PROPAGATION;
             }
 
-            if (modifyState !== this.modifyCount) {
+            if (modifyState !== this._modifyCount) {
                 // Signal got modified during iteration
                 return STOP_PROPAGATION;
             }
@@ -47,27 +58,32 @@ export class Signal<T extends unknown[] = []> {
     }
 
     /**
-     * Removes a receiver
+     * Removes a specific receiver
+     * @param receiver - The receiver to remove
      */
-    remove(receiver: SignalReceiver<T>) {
-        let index = null;
-        const n = this.receivers.length;
+    public remove(receiver: SignalReceiver<T>): void {
+        let index: number | null = null;
+        const n = this._receivers.length;
         for (let i = 0; i < n; ++i) {
-            if (this.receivers[i].receiver === receiver) {
+            if (this._receivers[i].receiver === receiver) {
                 index = i;
                 break;
             }
         }
-        assert(index !== null, "Receiver not found in list");
-        this.receivers.splice(index, 1);
-        ++this.modifyCount;
+
+        if (index === null) {
+            throw new Error('Receiver not found in list');
+        }
+
+        this._receivers.splice(index, 1);
+        ++this._modifyCount;
     }
 
     /**
      * Removes all receivers
      */
-    removeAll() {
-        this.receivers = [];
-        ++this.modifyCount;
+    public removeAll(): void {
+        this._receivers = [];
+        ++this._modifyCount;
     }
 }
