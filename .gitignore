@@ -112,7 +112,7 @@ imgui.ini
 
 .vscode/
 
-.github/*.md
+.github/**/*.md
 
 # build output
 # dist
