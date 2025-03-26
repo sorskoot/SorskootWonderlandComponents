@@ -6,11 +6,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { Component } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
+/**
+ * Component that destroys its object after a specified time
+ */
 export class SelfDestruct extends Component {
     static TypeName = 'self-destruct';
+    /**
+     * Time in seconds after which the object will be destroyed
+     */
     lifeTime = 1.0;
+    /** Tracks elapsed time since component activation */
     _time = 0;
-    start() { }
+    /**
+     * Validates component properties on start
+     */
+    start() {
+        if (this.lifeTime <= 0) {
+            throw new Error('self-destruct: lifeTime must be greater than 0');
+        }
+    }
+    /**
+     * Updates elapsed time and destroys object when lifetime is reached
+     * @param dt Delta time in seconds
+     */
     update(dt) {
         this._time += dt;
         if (!this.object.isDestroyed && this._time > this.lifeTime) {

@@ -29,18 +29,64 @@ private async transition(
 ```
  */
 export declare class FadeToBlack extends Component {
+    /** Component registration name in Wonderland Engine */
     static TypeName: string;
+    /**
+     * The object that will be faded
+     */
     fadeObject: Object3D;
+    /**
+     * Time in seconds for the fade transition
+     */
     fadeTransitionTime: number;
+    /**
+     * Color to fade to/from [r, g, b, a]
+     */
     fadeColor: number[];
+    /** Current transition state */
     private _transitionInProgress;
+    /** Material used for fading */
     private _fadeMaterial;
+    /** Current alpha value */
     private _alphaValue;
-    init(): void;
-    start(): void;
+    /** Promise resolver function */
     private _resolve;
+    /**
+     * Initialize the component
+     */
+    init(): void;
+    /**
+     * Validate required properties and setup component
+     */
+    start(): void;
+    /**
+     * Begin fade to black transition
+     * @returns Promise that resolves when fade is complete
+     */
     fadeToBlack(): Promise<void>;
+    /**
+     * Begin fade from black transition
+     * @returns Promise that resolves when fade is complete
+     */
     fadeFromBlack(): Promise<void>;
+    /**
+     * Start a transition with the specified type and initial alpha
+     * @param type Type of transition to start
+     * @param initialAlpha Initial alpha value
+     * @returns Promise that resolves when transition is complete
+     */
+    private _startTransition;
+    /**
+     * Set objects active based on current transition state
+     */
     private _setObjectsActive;
+    /**
+     * Update the component each frame
+     * @param dt Delta time since last frame
+     */
     update(dt: number): void;
+    /**
+     * Updates the material color with the current alpha value
+     */
+    private _updateMaterialColor;
 }

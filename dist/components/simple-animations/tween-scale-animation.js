@@ -6,23 +6,55 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { property } from '@wonderlandengine/api/decorators.js';
 import { SimpleAnimationBase } from './simple-animation-base.js';
+import { vec3 } from 'gl-matrix';
+// Temporary vector for calculations to avoid creating new objects every frame
+const tempVec3 = vec3.create();
+/**
+ * Component for animating an object's scale between two values
+ *
+ * This component extends SimpleAnimationBase to animate an object's scale
+ * from a starting scale multiplied by a factor (from) to a starting scale
+ * multiplied by another factor (to). The starting scale is captured when
+ * the component starts.
+ */
 export class TweenScaleAnimation extends SimpleAnimationBase {
     static TypeName = 'tween-scale-animation';
     static InheritProperties = true;
+    /**
+     * Starting scale factor relative to the object's initial scale
+     */
     from = [1, 1, 1];
+    /**
+     * Ending scale factor relative to the object's initial scale
+     */
     to = [1, 1, 1];
-    _startScale = [1, 1, 1];
-    _tempvec3 = [0, 0, 0];
+    /**
+     * The object's initial scale when animation starts
+     * @private
+     */
+    _startScale = vec3.create();
+    /**
+     * Initialize the component, capturing the object's initial scale
+     */
     start() {
         super.start();
         this.object.getScalingLocal(this._startScale);
     }
+    /**
+     * Called by SimpleAnimationBase with the current animation progress value
+     * Calculates and applies the interpolated scale based on the animation progress
+     *
+     * @param value - Current animation value (0-1) with easing applied
+     * @protected
+     */
     onLerpUpdate(value) {
+        // Calculate the interpolated scale
         for (let i = 0; i < 3; i++) {
-            this._tempvec3[i] =
+            tempVec3[i] =
                 this._startScale[i] * ((1 - value) * this.from[i] + value * this.to[i]);
         }
-        this.object.setScalingLocal(this._tempvec3);
+        // Apply the scale to the object
+        this.object.setScalingLocal(tempVec3);
     }
 }
 __decorate([
