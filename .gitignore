@@ -110,5 +110,9 @@ imgui.ini
 **_Bake*
 **.asd
 
+.vscode/
+
+.github/*.md
+
 # build output
 # dist
