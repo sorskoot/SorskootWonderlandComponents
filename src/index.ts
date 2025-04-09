@@ -16,6 +16,7 @@ export * from './components/simple-animations/tween-position-animation.js';
 export * from './components/simple-animations/tween-scale-animation.js';
 export * from './components/input/keyboard-controller.js';
 export * from './components/input/InputManager.js';
+export * from './components/timer-controller.js';
 
 export * from './utils/rng.js';
 export * from './utils/ObjectCache.js';
@@ -34,6 +35,8 @@ export * from './utils/hapticFeedback.js';
 export * from './utils/misc.js';
 export * from './utils/mobile.js';
 export * from './utils/noise.js';
+export * from './utils/Assert.js';
+export * from './utils/Signal.js';
 
 export * from './coroutines/Coroutine.js';
 export * from './coroutines/CoroutineManager.js';

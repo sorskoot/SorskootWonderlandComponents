@@ -1,20 +1,38 @@
-import { Component, Texture, Material, MeshComponent } from "@wonderlandengine/api";
+import { Component, Material } from '@wonderlandengine/api';
 export declare class Flipbook extends Component {
     static TypeName: string;
+    /**
+     * Base material to clone for each frame
+     */
     base: Material;
+    /**
+     * URL to the sprite sheet texture
+     */
     url: string;
+    /**
+     * URL to the emissive sprite sheet texture (optional)
+     */
     urlEmissive: string;
+    /**
+     * Number of columns in the sprite sheet
+     */
     columns: number;
+    /**
+     * Number of rows in the sprite sheet
+     */
     rows: number;
+    /**
+     * Animation speed in frames per second
+     */
     speed: number;
-    textures: Material[];
-    loaded: boolean;
-    index: number;
+    private _textures;
+    private _loaded;
+    private _index;
+    private _previousIndex;
+    private _meshComponent;
+    private _time;
     init(): void;
-    createMaterial(base: Material, texture: Texture, emissiveTexture?: Texture | null): Material;
-    mat: MeshComponent | null;
-    t: number;
+    private _createMaterial;
     start(): void;
-    previousIndex: number;
     update(dt: number): void;
 }

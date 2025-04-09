@@ -1,4 +1,4 @@
-import {Assert} from './asserts.js';
+import {Assert} from './Assert.js';
 
 export const STOP_PROPAGATION = 'stop_propagation' as const;
 export type STOP_PROPAGATION = typeof STOP_PROPAGATION;

@@ -1,4 +1,4 @@
-import { Assert } from './asserts.js';
+import { Assert } from './Assert.js';
 export const STOP_PROPAGATION = 'stop_propagation';
 /**
  * Signal implementation for event handling.

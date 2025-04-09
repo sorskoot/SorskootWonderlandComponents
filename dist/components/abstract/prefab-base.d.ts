@@ -27,7 +27,7 @@ export declare abstract class PrefabsBase extends Component {
      * Abstract property that must be implemented by derived classes
      * to specify the name of the prefab bin file to load
      */
-    protected abstract get PrefabBinName(): string;
+    protected abstract PrefabBinName(): string;
     private _isLoaded;
     /**
      * Gets whether the prefabs have been loaded

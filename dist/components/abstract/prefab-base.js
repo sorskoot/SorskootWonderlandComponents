@@ -46,7 +46,7 @@ export class PrefabsBase extends Component {
      * Loads the prefabs bin file and initializes the prefabs
      */
     async start() {
-        const prefabData = await this.engine.loadPrefab(this.PrefabBinName);
+        const prefabData = await this.engine.loadPrefab(this.PrefabBinName());
         const result = this.engine.scene.instantiate(prefabData);
         this._prefabs = result.root;
         this._prefabs.parent = this.object;

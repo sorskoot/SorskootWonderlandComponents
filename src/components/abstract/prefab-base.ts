@@ -40,7 +40,7 @@ export abstract class PrefabsBase extends Component {
      * Abstract property that must be implemented by derived classes
      * to specify the name of the prefab bin file to load
      */
-    protected abstract get PrefabBinName(): string;
+    protected abstract PrefabBinName(): string;
 
     private _isLoaded = false;
 
@@ -62,7 +62,7 @@ export abstract class PrefabsBase extends Component {
      * Loads the prefabs bin file and initializes the prefabs
      */
     async start(): Promise<void> {
-        const prefabData = await this.engine.loadPrefab(this.PrefabBinName);
+        const prefabData = await this.engine.loadPrefab(this.PrefabBinName());
         const result = this.engine.scene.instantiate(prefabData);
 
         this._prefabs = result.root;
