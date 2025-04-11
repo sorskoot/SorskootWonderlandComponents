@@ -37,6 +37,7 @@ export * from './utils/mobile.js';
 export * from './utils/noise.js';
 export * from './utils/Assert.js';
 export * from './utils/Signal.js';
+export * from './utils/MaterialPool.js';
 
 export * from './coroutines/Coroutine.js';
 export * from './coroutines/CoroutineManager.js';
