@@ -52,7 +52,7 @@
     },
     "peerDependencies": {
         "@wonderlandengine/api": ">=1.3.0",
-        "@wonderlandengine/react-ui": "0.2.4",
+        "@wonderlandengine/react-ui": ">=0.2.4",
         "react": ">=16.8.0"
     },
     "peerDependenciesMeta": {
