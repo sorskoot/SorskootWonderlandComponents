@@ -41,10 +41,8 @@ export abstract class AtomSystem {
     /**
      * Creates a new system
      *
-     * @param {string} name - The name of the system
-     * @param {number} priority - The priority of the system (determines execution order)
      */
-    constructor(name: string, priority: number) {
+    constructor(name: string) {
         this._name = name;
     }
 
