@@ -43,6 +43,48 @@ Components are added to [NPM](https://www.npmjs.com/package/@sorskoot/wonderland
 
 - **ShootBase** - Base component for shooting mechanics. Can be extended for various weapon types.
 
+### AtomECS
+
+The start of a very simplistic ECS system.
+There is some documentation in the code. Examples will follow.
+
+### Service Locator
+
+The ServiceLocator can be used to make singletons from classes and Wonderland Components.
+
+Add the `@ServiceLocator.register` to classes or `@ServiceLocator.registerComponent` to Wonderland Engine Components. This will make sure that the class or component is registered with the ServiceLocator at the right time (either in the constructor or in the init() method).
+
+```ts
+@ServiceLocator.register
+export class GameManager {
+    // implementation
+}
+
+```
+
+or
+
+```ts
+@ServiceLocator.registerComponent
+export class MyComponent extends Component{
+    // implementation
+}
+```
+
+To use a singleton, you can either do:
+
+```ts
+const myComponent = ServiceLocator.get(MyComponent);
+const myManager = ServiceLocator.get(GameManager);
+```
+
+or inject directly into a property:
+
+```ts
+    @ServiceLocator.inject(MyComponent)
+    private declare _myComponent: MyComponent;
+```
+
 ### Utilities
 
 The library also includes various utility classes for:
@@ -53,12 +95,3 @@ The library also includes various utility classes for:
 - Signal systems
 - Haptic feedback
 - And much more!
-
-## Deprecated
-
-Some components are marked as deprecated and will be removed in future versions:
-
-- **Prefab** - Use PrefabBase instead
-- **PrefabStorage** - Use the new prefab system instead
-
-For detailed information on how to use each component, please refer to the code documentation or the examples folder.
