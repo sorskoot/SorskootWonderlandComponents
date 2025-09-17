@@ -22,7 +22,7 @@ export async function main(argv: string[]): Promise<number | void> {
         console.error(
             'Error: Please provide both an input and an output directory path as arguments.'
         );
-        console.error('Usage: node scripts/cbor-encode.js <inputDir> <outputDir>');
+        console.error('Usage: cbor-encode <inputDir> <outputDir>');
         process.exit(1);
     }
 
