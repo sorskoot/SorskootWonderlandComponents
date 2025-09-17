@@ -15,8 +15,8 @@ export async function main(argv: string[]): Promise<number | void> {
     console.log(`Encoding CBOR from "${inputFolder}" into "${outputFolder}"`);
 
     // Get the target input and output directories from command line arguments
-    const inputDirRelative = inputFolder; //process.argv[2];
-    const outputDirRelative = outputFolder; //process.argv[3];
+    const inputDirRelative = inputFolder;
+    const outputDirRelative = outputFolder;
 
     if (!inputDirRelative || !outputDirRelative) {
         console.error(
