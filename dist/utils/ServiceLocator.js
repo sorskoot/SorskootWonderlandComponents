@@ -96,7 +96,6 @@ class SL {
      * Register an instance for a constructor token.
      *
      * Logs an error if the token is already registered.
-
      */
     static register(token, instance) {
         const normalized = Reflect.get(token, ORIGINAL_CLASS) || token;

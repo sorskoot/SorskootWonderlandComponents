@@ -12,11 +12,11 @@ export async function main(argv) {
     const [inputFolder, outputFolder] = args;
     console.log(`Encoding CBOR from "${inputFolder}" into "${outputFolder}"`);
     // Get the target input and output directories from command line arguments
-    const inputDirRelative = inputFolder; //process.argv[2];
-    const outputDirRelative = outputFolder; //process.argv[3];
+    const inputDirRelative = inputFolder;
+    const outputDirRelative = outputFolder;
     if (!inputDirRelative || !outputDirRelative) {
         console.error('Error: Please provide both an input and an output directory path as arguments.');
-        console.error('Usage: node scripts/cbor-encode.js <inputDir> <outputDir>');
+        console.error('Usage: cbor-encode <inputDir> <outputDir>');
         process.exit(1);
     }
     // Resolve relative paths based on the project root (assuming script is run from project root)

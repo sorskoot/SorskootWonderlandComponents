@@ -27,7 +27,9 @@
       "cbor-encode": "bin/cbor-encode"
     },
     "scripts": {
-        "build": "tsc",
+        "build": "npm run build:code && npm run build:tools",
+        "build:tools": "tsc -p tsconfig-tools.json",
+        "build:code": "tsc",
         "build:watch": "tsc --watch",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
         "prepack": "npm run build"
