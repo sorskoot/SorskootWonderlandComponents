@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": ["node_modules", "dist"],
+    "include": ["./*.mts"],
+    "types": ["@types/**"]
+}

@@ -1,0 +1,12 @@
+{
+    "name": "plugins",
+    "version": "1.0.0",
+    "main": "index.js",
+    "wonderlandengine": {},
+    "author": "Sorskoot",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@wonderlandengine/editor-api": "^1.4.5"
+    }
+}
