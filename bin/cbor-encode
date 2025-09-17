@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+import { fileURLToPath, pathToFileURL } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Resolve the compiled module in dist/tools/cbor-encode.js
+const modulePath = path.join(__dirname, '..', 'dist', 'tools', 'cbor-encode.js');
+const moduleUrl = pathToFileURL(modulePath).href;
+
+(async () => {
+    try {
+        const mod = await import(moduleUrl);
+        if (typeof mod.main !== 'function') {
+            console.error('cbor-encode: compiled module does not export main()');
+            process.exit(1);
+        }
+
+        const exitCode = await mod.main(process.argv.slice(2));
+        if (typeof exitCode === 'number' && exitCode !== 0) {
+            process.exit(exitCode);
+        }
+    } catch (err) {
+        console.error(err && (err.stack || err));
+        process.exit(1);
+    }
+})();

@@ -29,7 +29,17 @@ export class SorskootLogger {
             this.badges = defaultBadge;
         }
     }
+    /**
+     * Formats the message. Using this method allows you to keep the stack trace
+     * intact when passing the result to console.log
+     */
+    f(message: string | object, ...args: any[]) {
+        return [...this.badges, message, ...args];
+    }
 
+    /**
+     * @deprecated Use f() instead and pass the result to console.log
+     */
     log(message: string, ...args: any[]) {
         if (!this.debugFlagPresent) return;
         console.log.apply(console, [...this.badges, message, ...args]);

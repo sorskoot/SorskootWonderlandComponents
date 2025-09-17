@@ -1,6 +1,4 @@
 export * from './components/flipbook.js';
-export * from './components/deprecated/prefab-storage.js';
-export * from './components/deprecated/prefab.js';
 export * from './components/shootBase.js';
 export * from './components/snap-rotate.js';
 export * from './components/snow-particles.js';

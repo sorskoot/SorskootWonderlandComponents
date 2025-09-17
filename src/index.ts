@@ -1,6 +1,4 @@
 export * from './components/flipbook.js';
-export * from './components/deprecated/prefab-storage.js';
-export * from './components/deprecated/prefab.js';
 export * from './components/shootBase.js';
 export * from './components/snap-rotate.js';
 export * from './components/snow-particles.js';
@@ -38,6 +36,9 @@ export * from './utils/noise.js';
 export * from './utils/Assert.js';
 export * from './utils/Signal.js';
 export * from './utils/MaterialPool.js';
+export * from './utils/ServiceLocator.js';
+export * from './utils/UniqueStack.js';
+export * from './utils/DataLoader.js';
 
 export * from './coroutines/Coroutine.js';
 export * from './coroutines/CoroutineManager.js';

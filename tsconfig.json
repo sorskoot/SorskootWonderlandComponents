@@ -11,6 +11,6 @@
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["src/**/*.ts", "src/types/globals.d.ts"],
+    "include": ["src/**/*.ts", "src/types/globals.d.ts", "tools/**/*"],
     "exclude": ["node_modules", "dist"]
 }
