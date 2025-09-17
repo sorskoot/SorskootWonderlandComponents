@@ -4,20 +4,9 @@ import {wlUtils} from '../../utils/wlUtils.js';
 /**
  * Abstract base class for managing prefabs in Wonderland Engine.
  * Provides functionality to load, manage, and spawn prefabs from a specified bin file.
- * Implements the singleton pattern to ensure only one instance exists.
  */
 export abstract class PrefabsBase extends Component {
     static TypeName = 'prefabs-base';
-
-    // Singleton
-    private static _instance: PrefabsBase;
-
-    /**
-     * Gets the singleton instance of PrefabsBase
-     */
-    static get instance(): PrefabsBase {
-        return PrefabsBase._instance;
-    }
 
     /**
      * Reference to the root object containing all prefabs
@@ -49,13 +38,6 @@ export abstract class PrefabsBase extends Component {
      */
     get isLoaded(): boolean {
         return this._isLoaded;
-    }
-
-    /**
-     * Initializes the component and sets the singleton instance
-     */
-    init(): void {
-        PrefabsBase._instance = this;
     }
 
     /**
