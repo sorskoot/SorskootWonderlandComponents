@@ -1,6 +1,6 @@
 {
     "name": "@sorskoot/wonderland-components",
-    "version": "1.5.3",
+    "version": "1.5.4",
     "description": "Collection of personal components for Wonderland Engine",
     "repository": {
         "type": "git",
@@ -24,7 +24,7 @@
         }
     },
     "bin": {
-      "cbor-encode": "bin/cbor-encode"
+        "cbor-encode": "bin/cbor-encode"
     },
     "scripts": {
         "build": "npm run build:code && npm run build:tools",
