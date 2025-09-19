@@ -35,6 +35,13 @@ export type CellData = {
     y: number;
 };
 /**
+ * Small helper type for coordinate conversion results.
+ */
+export type TilePoint = {
+    x: number;
+    y: number;
+};
+/**
  * A lightweight 2D tile map storing arbitrary tile data keyed by integer
  * coordinates. Each tile occupies a 1x1 unit cell and is addressed by
  * its integer x,y coordinates. The Tilemap separates storage from rendering
@@ -60,14 +67,82 @@ export declare class Tilemap<T extends CellData> {
     /** Height of the map in tiles. 0 means uninitialized or dynamic. */
     private _height;
     /**
+     * Tile size in world units (width and height). Defaults to 1.
+     * These are private backing fields; use the getters/setter below.
+     */
+    private _tileWidth;
+    private _tileHeight;
+    private _offsetX;
+    private _offsetY;
+    /**
      * Getters for dimensions. 0 means not initialized or zero size.
      */
     /** Width in tiles. Returns 0 when dimensions are not set. */
     get width(): number;
     /** Height in tiles. Returns 0 when dimensions are not set. */
     get height(): number;
+    /**
+     * Tile physical size (world units). Defaults to 1.
+     * Use `setTileSize` to change both dimensions.
+     */
+    get tileWidth(): number;
+    get tileHeight(): number;
+    /**
+     * Offset to add to world-to-tile conversions. Defaults to 0.
+     */
+    get offsetX(): number;
+    get offsetY(): number;
     /** Create an empty Tilemap. Call `createMap` to initialize bounds. */
-    constructor();
+    constructor(tileWidth?: number, tileHeight?: number);
+    /**
+     * Set tile size in world units. `height` defaults to `width` if omitted.
+     * Throws when width or height are not positive numbers.
+     *
+     * @param width - Tile width in world units (must be > 0).
+     * @param height - Tile height in world units (must be > 0).
+     */
+    setTileSize(width: number, height?: number): void;
+    setOffset(x: number, y: number): void;
+    /**
+     * Convert a world position to tile coordinates. Uses Math.floor so world
+     * coordinates map into integer grid indices. Negative world coordinates
+     * will produce negative tile indices; callers should check bounds via
+     * `getTile`/`hasTile` when the map is bounded.
+     *
+     * Accounts for the offset (shifts the grid origin).
+     *
+     * @param wx - World X position.
+     * @param wy - World Y position.
+     */
+    worldToTile(wx: number, wy: number): TilePoint;
+    /**
+     * Convert tile coordinates to the world position of the tile origin
+     * (top-left / minimum corner). If you need the center, use
+     * `tileToWorldCenter`.
+     *
+     * Accounts for the offset (shifts the grid origin).
+     *
+     * @param x - Tile X coordinate (integer).
+     * @param y - Tile Y coordinate (integer).
+     */
+    tileToWorldOrigin(x: number, y: number): TilePoint;
+    /**
+     * Convert tile coordinates to the world position of the tile center.
+     *
+     * Accounts for the offset (shifts the grid origin).
+     *
+     * @param x - Tile X coordinate (integer).
+     * @param y - Tile Y coordinate (integer).
+     */
+    tileToWorldCenter(x: number, y: number): TilePoint;
+    /**
+     * Convert a tile object to its world center position.
+     *
+     * Accounts for the offset (shifts the grid origin).
+     *
+     * @param tile - The tile object.
+     */
+    tileToWorldPosition(tile: T): TilePoint;
     /**
      * Initialize a rectangular map of the provided size.
      *

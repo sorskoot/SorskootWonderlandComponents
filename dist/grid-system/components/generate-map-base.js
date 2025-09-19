@@ -4,7 +4,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { property, Component, Property, } from '@wonderlandengine/api';
+import { Component, Property } from '@wonderlandengine/api';
+import { property } from '@wonderlandengine/api/decorators.js';
 import { Tilemap } from '../classes/Tilemap.js';
 import { TileInteract } from './tile-interact.js';
 /**
@@ -41,6 +42,8 @@ export class GenerateMapBase extends Component {
      * This is shown in the editor as a vector2 property.
      */
     dimensions = [10, 10];
+    tileSize = [1, 1];
+    offset = [0, 0];
     /**
      * When true, the component will add/lookup a TileInteract component on
      * the same object and wire its events to this class' handlers.
@@ -57,7 +60,7 @@ export class GenerateMapBase extends Component {
      *
      * This field is private to prevent external mutation.
      */
-    _tileInteract = undefined;
+    _tileInteract;
     /**
      * Component lifecycle `start` hook.
      *
@@ -67,6 +70,8 @@ export class GenerateMapBase extends Component {
      */
     start() {
         this.tilemap = new Tilemap();
+        this.tilemap.setTileSize(this.tileSize[0], this.tileSize[1]);
+        this.tilemap.setOffset(this.offset[0], this.offset[1]);
         this.tilemap.createMap(this.dimensions[0], this.dimensions[1]);
         if (this.interactive) {
             this._tileInteract = this.object.getComponent(TileInteract);
@@ -149,6 +154,12 @@ __decorate([
 __decorate([
     property.vector2(10, 10)
 ], GenerateMapBase.prototype, "dimensions", void 0);
+__decorate([
+    property.vector2(1, 1)
+], GenerateMapBase.prototype, "tileSize", void 0);
+__decorate([
+    property.vector2(0, 0)
+], GenerateMapBase.prototype, "offset", void 0);
 __decorate([
     property.bool(true)
 ], GenerateMapBase.prototype, "interactive", void 0);

@@ -35,6 +35,14 @@ export class Tilemap {
     /** Height of the map in tiles. 0 means uninitialized or dynamic. */
     _height = 0;
     /**
+     * Tile size in world units (width and height). Defaults to 1.
+     * These are private backing fields; use the getters/setter below.
+     */
+    _tileWidth = 1;
+    _tileHeight = 1;
+    _offsetX = 0;
+    _offsetY = 0;
+    /**
      * Getters for dimensions. 0 means not initialized or zero size.
      */
     /** Width in tiles. Returns 0 when dimensions are not set. */
@@ -45,8 +53,118 @@ export class Tilemap {
     get height() {
         return this._height;
     }
+    /**
+     * Tile physical size (world units). Defaults to 1.
+     * Use `setTileSize` to change both dimensions.
+     */
+    get tileWidth() {
+        return this._tileWidth;
+    }
+    get tileHeight() {
+        return this._tileHeight;
+    }
+    /**
+     * Offset to add to world-to-tile conversions. Defaults to 0.
+     */
+    get offsetX() {
+        return this._offsetX;
+    }
+    get offsetY() {
+        return this._offsetY;
+    }
     /** Create an empty Tilemap. Call `createMap` to initialize bounds. */
-    constructor() { }
+    constructor(tileWidth = 1, tileHeight = 1) {
+        // allow optional construction with tile size, still backwards-compatible
+        this.setTileSize(tileWidth, tileHeight);
+    }
+    /**
+     * Set tile size in world units. `height` defaults to `width` if omitted.
+     * Throws when width or height are not positive numbers.
+     *
+     * @param width - Tile width in world units (must be > 0).
+     * @param height - Tile height in world units (must be > 0).
+     */
+    setTileSize(width, height = width) {
+        if (typeof width !== 'number' ||
+            typeof height !== 'number' ||
+            isNaN(width) ||
+            isNaN(height) ||
+            width <= 0 ||
+            height <= 0) {
+            throw new Error('Tilemap.setTileSize: width and height must be > 0');
+        }
+        this._tileWidth = width;
+        this._tileHeight = height;
+    }
+    setOffset(x, y) {
+        if (typeof x !== 'number' ||
+            typeof y !== 'number' ||
+            isNaN(x) ||
+            isNaN(y)) {
+            throw new Error('Tilemap.setOffset: x and y must be numbers');
+        }
+        this._offsetX = x;
+        this._offsetY = y;
+    }
+    /**
+     * Convert a world position to tile coordinates. Uses Math.floor so world
+     * coordinates map into integer grid indices. Negative world coordinates
+     * will produce negative tile indices; callers should check bounds via
+     * `getTile`/`hasTile` when the map is bounded.
+     *
+     * Accounts for the offset (shifts the grid origin).
+     *
+     * @param wx - World X position.
+     * @param wy - World Y position.
+     */
+    worldToTile(wx, wy) {
+        const tx = Math.floor((wx - this._offsetX) / this._tileWidth);
+        const ty = Math.floor((wy - this._offsetY) / this._tileHeight);
+        return { x: tx, y: ty };
+    }
+    /**
+     * Convert tile coordinates to the world position of the tile origin
+     * (top-left / minimum corner). If you need the center, use
+     * `tileToWorldCenter`.
+     *
+     * Accounts for the offset (shifts the grid origin).
+     *
+     * @param x - Tile X coordinate (integer).
+     * @param y - Tile Y coordinate (integer).
+     */
+    tileToWorldOrigin(x, y) {
+        return {
+            x: x * this._tileWidth + this._offsetX,
+            y: y * this._tileHeight + this._offsetY,
+        };
+    }
+    /**
+     * Convert tile coordinates to the world position of the tile center.
+     *
+     * Accounts for the offset (shifts the grid origin).
+     *
+     * @param x - Tile X coordinate (integer).
+     * @param y - Tile Y coordinate (integer).
+     */
+    tileToWorldCenter(x, y) {
+        return {
+            x: (x + 0.5) * this._tileWidth + this._offsetX,
+            y: (y + 0.5) * this._tileHeight + this._offsetY,
+        };
+    }
+    /**
+     * Convert a tile object to its world center position.
+     *
+     * Accounts for the offset (shifts the grid origin).
+     *
+     * @param tile - The tile object.
+     */
+    tileToWorldPosition(tile) {
+        return {
+            x: (tile.x + 0.5) * this._tileWidth + this._offsetX,
+            y: (tile.y + 0.5) * this._tileHeight + this._offsetY,
+        };
+    }
     /**
      * Initialize a rectangular map of the provided size.
      *
@@ -242,7 +360,10 @@ export class Tilemap {
             const ny = y + dy;
             // if bounds known, skip out-of-range coordinates
             if (this._width > 0 && this._height > 0) {
-                if (nx < 0 || ny < 0 || nx >= this._width || ny >= this._height) {
+                if (nx < 0 ||
+                    ny < 0 ||
+                    nx >= this._width ||
+                    ny >= this._height) {
                     continue;
                 }
             }

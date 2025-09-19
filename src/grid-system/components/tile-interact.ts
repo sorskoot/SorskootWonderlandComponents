@@ -106,10 +106,7 @@ export class TileInteract extends Component {
         }
         const cursorHitPos = cursor.cursorPos;
         this.object.getPositionWorld(ownPos);
-        return {
-            x: cursorHitPos[0] - ownPos[0] + this.map.width / 2 + 0.5,
-            y: cursorHitPos[2] - ownPos[2] + this.map.height / 2 + 0.5,
-        };
+        return this.map.worldToTile(cursorHitPos[0], cursorHitPos[2]);
     }
 
     /**
@@ -122,7 +119,9 @@ export class TileInteract extends Component {
             return;
         }
         if (!(cursor instanceof Cursor)) {
-            // FingerCursor does not have cursorPos
+            console.warn(
+                `TileInteract: Only Cursor type is supported, received ${cursor.constructor.name}`
+            );
             return;
         }
         const relativePos = this._toRelativePos(cursor);
@@ -143,7 +142,7 @@ export class TileInteract extends Component {
             return;
         }
         if (!(cursor instanceof Cursor)) {
-            // FingerCursor does not have cursorPos
+            console.warn('TileInteract: Unsupported cursor type');
             return;
         }
         const relativePos = this._toRelativePos(cursor);

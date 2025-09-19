@@ -1,9 +1,9 @@
 import {
-    property,
     Component,
     Object3D,
     Property,
     WonderlandEngine,
+    property,
 } from '@wonderlandengine/api';
 import {CellData, Tilemap} from '../classes/Tilemap.js';
 import {TileInteract} from './tile-interact.js';
@@ -47,6 +47,11 @@ export class GenerateMapBase<T extends CellData> extends Component {
     @property.vector2(10, 10)
     dimensions = [10, 10];
 
+    @property.vector2(1, 1)
+    tileSize = [1, 1];
+
+    @property.vector2(0, 0)
+    offset = [0, 0];
     /**
      * When true, the component will add/lookup a TileInteract component on
      * the same object and wire its events to this class' handlers.
@@ -66,8 +71,7 @@ export class GenerateMapBase<T extends CellData> extends Component {
      *
      * This field is private to prevent external mutation.
      */
-    private _tileInteract?: TileInteract | null = undefined;
-
+    private _tileInteract: TileInteract | null | undefined = undefined;
     /**
      * Component lifecycle `start` hook.
      *
@@ -77,6 +81,8 @@ export class GenerateMapBase<T extends CellData> extends Component {
      */
     start() {
         this.tilemap = new Tilemap<T>();
+        this.tilemap.setTileSize(this.tileSize[0], this.tileSize[1]);
+        this.tilemap.setOffset(this.offset[0], this.offset[1]);
         this.tilemap.createMap(this.dimensions[0], this.dimensions[1]);
 
         if (this.interactive) {

@@ -30,6 +30,8 @@ export declare class GenerateMapBase<T extends CellData> extends Component {
      * This is shown in the editor as a vector2 property.
      */
     dimensions: number[];
+    tileSize: number[];
+    offset: number[];
     /**
      * When true, the component will add/lookup a TileInteract component on
      * the same object and wire its events to this class' handlers.
