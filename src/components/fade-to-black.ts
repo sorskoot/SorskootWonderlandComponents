@@ -1,6 +1,6 @@
 import {Component, MeshComponent, Object3D} from '@wonderlandengine/api';
 import {property} from '@wonderlandengine/api/decorators.js';
-import {FlatOpaque} from '../types/materials.js';
+import type {FlatOpaque} from '../types/materials.js';
 import {wlUtils} from '../utils/wlUtils.js';
 
 /**
