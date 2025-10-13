@@ -10,13 +10,15 @@ import { property } from '@wonderlandengine/api/decorators.js';
  * Component that destroys its object after a specified time
  */
 export class SelfDestruct extends Component {
-    static TypeName = 'self-destruct';
-    /**
-     * Time in seconds after which the object will be destroyed
-     */
-    lifeTime = 1.0;
-    /** Tracks elapsed time since component activation */
-    _time = 0;
+    constructor() {
+        super(...arguments);
+        /**
+         * Time in seconds after which the object will be destroyed
+         */
+        this.lifeTime = 1.0;
+        /** Tracks elapsed time since component activation */
+        this._time = 0;
+    }
     /**
      * Validates component properties on start
      */
@@ -36,6 +38,7 @@ export class SelfDestruct extends Component {
         }
     }
 }
+SelfDestruct.TypeName = 'self-destruct';
 __decorate([
     property.float(1.0)
 ], SelfDestruct.prototype, "lifeTime", void 0);

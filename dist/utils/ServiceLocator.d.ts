@@ -74,5 +74,6 @@ export declare const ServiceLocator: {
     registerComponent: typeof registerComponent;
     get: typeof SL.get;
     clear: typeof SL.clear;
+    registerInstance: typeof SL.register;
 };
 export {};

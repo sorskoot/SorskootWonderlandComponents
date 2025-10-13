@@ -37,62 +37,51 @@ export var SimpleAnimationStyle;
  * specific animation behaviors.
  */
 export class SimpleAnimationBase extends Component {
-    static TypeName = 'simple-animation-base';
-    /**
-     * Duration of the animation in seconds
-     */
-    duration = 1.0;
-    /**
-     * The easing method to use for the animation
-     */
-    method;
-    /**
-     * The animation style (once, loop, ping-pong)
-     */
-    style;
-    /**
-     * Delay in seconds before the animation starts
-     */
-    startDelay = 0.0;
-    /**
-     * Whether the animation should start automatically when the component activates
-     */
-    autoStart = true;
-    /**
-     * Time elapsed since the animation started
-     * @private
-     */
-    _elapsedTime = 0;
-    /**
-     * Current normalized lerp value (0-1)
-     * @private
-     */
-    _lerpValue = 0;
-    /**
-     * Whether the animation is currently active
-     * @private
-     */
-    _isLerping = false;
-    /**
-     * Direction of the animation (1 = forward, -1 = backward)
-     * @private
-     */
-    _direction = 1;
-    /**
-     * Whether the animation is currently delayed
-     * @private
-     */
-    _isDelayed = false;
-    /**
-     * Current delay time counter
-     * @private
-     */
-    _delayTimer = 0;
-    /**
-     * Optional callback function that will be called when the animation completes
-     * @private
-     */
-    _onComplete;
+    constructor() {
+        super(...arguments);
+        /**
+         * Duration of the animation in seconds
+         */
+        this.duration = 1.0;
+        /**
+         * Delay in seconds before the animation starts
+         */
+        this.startDelay = 0.0;
+        /**
+         * Whether the animation should start automatically when the component activates
+         */
+        this.autoStart = true;
+        /**
+         * Time elapsed since the animation started
+         * @private
+         */
+        this._elapsedTime = 0;
+        /**
+         * Current normalized lerp value (0-1)
+         * @private
+         */
+        this._lerpValue = 0;
+        /**
+         * Whether the animation is currently active
+         * @private
+         */
+        this._isLerping = false;
+        /**
+         * Direction of the animation (1 = forward, -1 = backward)
+         * @private
+         */
+        this._direction = 1;
+        /**
+         * Whether the animation is currently delayed
+         * @private
+         */
+        this._isDelayed = false;
+        /**
+         * Current delay time counter
+         * @private
+         */
+        this._delayTimer = 0;
+    }
     /**
      * Called when the component is started.
      * Initializes and activates the animation if autoStart is true.
@@ -238,6 +227,7 @@ export class SimpleAnimationBase extends Component {
         // Override this method in derived classes to perform actions during the lerp
     }
 }
+SimpleAnimationBase.TypeName = 'simple-animation-base';
 __decorate([
     property.float(1.0)
 ], SimpleAnimationBase.prototype, "duration", void 0);

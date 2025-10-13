@@ -25,20 +25,20 @@
  */
 export class AtomSystem {
     /**
-     * The name of the system
-     * @private
-     */
-    _name = 'System';
-    /**
-     * Array of entities the system operates on
-     * @protected
-     */
-    allEntities = [];
-    /**
      * Creates a new system
      *
      */
     constructor(name) {
+        /**
+         * The name of the system
+         * @private
+         */
+        this._name = 'System';
+        /**
+         * Array of entities the system operates on
+         * @protected
+         */
+        this.allEntities = [];
         this._name = name;
     }
     /**

@@ -1,5 +1,7 @@
 export class Queue {
-    items = [];
+    constructor() {
+        this.items = [];
+    }
     enqueue(item) {
         this.items.push(item);
     }

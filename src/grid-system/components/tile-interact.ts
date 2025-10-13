@@ -141,11 +141,7 @@ export class TileInteract extends Component {
             console.warn('TileInteract: No map assigned');
             return;
         }
-        if (!(cursor instanceof Cursor)) {
-            console.warn('TileInteract: Unsupported cursor type');
-            return;
-        }
-        const relativePos = this._toRelativePos(cursor);
+        const relativePos = this._toRelativePos(cursor as Cursor);
         const tile = this.map.getTile(relativePos.x, relativePos.y);
         if (tile !== this._previousTile) {
             if (this._previousTile) {

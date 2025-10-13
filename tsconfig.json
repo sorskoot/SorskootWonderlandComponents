@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ES2022",
+        "target": "es2017",
         "module": "NodeNext",
         "moduleResolution": "nodenext",
         "outDir": "dist",
@@ -8,6 +8,7 @@
         "newLine": "LF",
         "allowJs": true,
         "strict": true,
+        "rootDir": "src",
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true
     },

@@ -4,11 +4,6 @@ import { Emitter } from '@wonderlandengine/api';
  * the online/offline status of the application.
  */
 export class OfflineHelper {
-    // Private static instance of OfflineHelper
-    static _instance;
-    // Emitters to notify when the application goes online or offline
-    wentOnline = new Emitter();
-    wentOffline = new Emitter();
     /**
      * Returns the single instance of the OfflineHelper.
      * If the instance does not exist, it creates a new one.
@@ -21,6 +16,17 @@ export class OfflineHelper {
     }
     // Private constructor to prevent direct instantiation
     constructor() {
+        // Emitters to notify when the application goes online or offline
+        this.wentOnline = new Emitter();
+        this.wentOffline = new Emitter();
+        // Private method to handle the online event
+        this._online = () => {
+            this.wentOnline.notify();
+        };
+        // Private method to handle the offline event
+        this._offline = () => {
+            this.wentOffline.notify();
+        };
         // Add event listeners for online and offline events
         window.addEventListener('online', this._online);
         window.addEventListener('offline', this._offline);
@@ -31,12 +37,4 @@ export class OfflineHelper {
     get isOffline() {
         return !navigator.onLine;
     }
-    // Private method to handle the online event
-    _online = () => {
-        this.wentOnline.notify();
-    };
-    // Private method to handle the offline event
-    _offline = () => {
-        this.wentOffline.notify();
-    };
 }

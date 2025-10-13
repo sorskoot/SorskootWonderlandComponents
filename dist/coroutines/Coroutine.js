@@ -1,5 +1,4 @@
 export class Coroutine {
-    generator;
     constructor(generator) {
         this.generator = generator;
     }

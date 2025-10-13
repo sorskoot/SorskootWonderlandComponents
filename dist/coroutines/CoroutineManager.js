@@ -27,8 +27,10 @@
  * ```
  */
 export class CoroutineManager {
-    coroutines = new Map();
-    nextId = 0;
+    constructor() {
+        this.coroutines = new Map();
+        this.nextId = 0;
+    }
     addCoroutine(coroutine) {
         const id = this.nextId++;
         this.coroutines.set(id, coroutine);

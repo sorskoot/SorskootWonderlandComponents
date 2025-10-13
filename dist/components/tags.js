@@ -17,15 +17,6 @@ import { property } from '@wonderlandengine/api/decorators.js';
  * Note: Do not change the tags at runtime. If you need to change it, use the Tags.setTag method.
  */
 export class Tags extends Component {
-    static TypeName = 'tags';
-    static _tagMap = new Map();
-    /**
-     * A space-separated list of tags.
-     *
-     * Note: Do not change the tags at runtime.
-     * If you need to change it, use the Tags.setTag method.
-     */
-    tags;
     start() {
         this._addToTagMap();
     }
@@ -47,7 +38,8 @@ export class Tags extends Component {
      * @returns An array of objects with the given tag.
      */
     static getObjectsWithTag(tag) {
-        return Tags._tagMap.get(tag)?.map((entry) => entry.object) ?? [];
+        var _a, _b;
+        return (_b = (_a = Tags._tagMap.get(tag)) === null || _a === void 0 ? void 0 : _a.map((entry) => entry.object)) !== null && _b !== void 0 ? _b : [];
     }
     /**
      * Retrieves all tags associated with a given object.
@@ -153,6 +145,8 @@ export class Tags extends Component {
         this._addToTagMap();
     }
 }
+Tags.TypeName = 'tags';
+Tags._tagMap = new Map();
 __decorate([
     property.string()
 ], Tags.prototype, "tags", void 0);

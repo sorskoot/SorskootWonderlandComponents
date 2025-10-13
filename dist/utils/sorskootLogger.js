@@ -2,9 +2,8 @@
  * To enable, add --define:DEBUG=\"sorskoot\"
  */
 export class SorskootLogger {
-    debugFlagPresent = false;
-    badges;
     constructor(badge = undefined, color = '#e92a7d') {
+        this.debugFlagPresent = false;
         if (typeof DEBUG !== 'undefined') {
             this.debugFlagPresent = true;
         }

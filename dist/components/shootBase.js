@@ -8,10 +8,12 @@ import { Component } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
 const handedness = ['left', 'right'];
 export class ShootBase extends Component {
-    static TypeName = 'shoot-base';
-    haptics = true;
-    handedness = 0;
-    initialized = false;
+    constructor() {
+        super(...arguments);
+        this.haptics = true;
+        this.handedness = 0;
+        this.initialized = false;
+    }
     start() {
         this.initialized = false;
         this.engine.onXRSessionStart.add((session) => {
@@ -43,6 +45,7 @@ export class ShootBase extends Component {
     }
     shoot(transform, rotation) { }
 }
+ShootBase.TypeName = 'shoot-base';
 __decorate([
     property.bool(true)
 ], ShootBase.prototype, "haptics", void 0);

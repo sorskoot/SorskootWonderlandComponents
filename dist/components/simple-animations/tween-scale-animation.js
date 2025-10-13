@@ -18,21 +18,22 @@ const tempVec3 = vec3.create();
  * the component starts.
  */
 export class TweenScaleAnimation extends SimpleAnimationBase {
-    static TypeName = 'tween-scale-animation';
-    static InheritProperties = true;
-    /**
-     * Starting scale factor relative to the object's initial scale
-     */
-    from = [1, 1, 1];
-    /**
-     * Ending scale factor relative to the object's initial scale
-     */
-    to = [1, 1, 1];
-    /**
-     * The object's initial scale when animation starts
-     * @private
-     */
-    _startScale = vec3.create();
+    constructor() {
+        super(...arguments);
+        /**
+         * Starting scale factor relative to the object's initial scale
+         */
+        this.from = [1, 1, 1];
+        /**
+         * Ending scale factor relative to the object's initial scale
+         */
+        this.to = [1, 1, 1];
+        /**
+         * The object's initial scale when animation starts
+         * @private
+         */
+        this._startScale = vec3.create();
+    }
     /**
      * Initialize the component, capturing the object's initial scale
      */
@@ -57,6 +58,8 @@ export class TweenScaleAnimation extends SimpleAnimationBase {
         this.object.setScalingLocal(tempVec3);
     }
 }
+TweenScaleAnimation.TypeName = 'tween-scale-animation';
+TweenScaleAnimation.InheritProperties = true;
 __decorate([
     property.vector3(1, 1, 1)
 ], TweenScaleAnimation.prototype, "from", void 0);

@@ -13,9 +13,11 @@ import { property } from '@wonderlandengine/api/decorators.js';
  * to inactive on init.
  */
 export class DieAfterTime extends Component {
-    static TypeName = 'die-after-time';
-    lifeTime = 1.0;
-    _time = 0;
+    constructor() {
+        super(...arguments);
+        this.lifeTime = 1.0;
+        this._time = 0;
+    }
     init() {
         this.active = false;
     }
@@ -27,6 +29,7 @@ export class DieAfterTime extends Component {
         }
     }
 }
+DieAfterTime.TypeName = 'die-after-time';
 __decorate([
     property.float(1.0)
 ], DieAfterTime.prototype, "lifeTime", void 0);

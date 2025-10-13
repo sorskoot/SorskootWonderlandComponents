@@ -3,9 +3,9 @@
  * Implements the singleton pattern to ensure only one instance exists.
  */
 export class MaterialPool {
-    static _instance;
-    _materials = new Map();
-    constructor() { }
+    constructor() {
+        this._materials = new Map();
+    }
     /**
      * Returns the singleton instance of MaterialPool
      */

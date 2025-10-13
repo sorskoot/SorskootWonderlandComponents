@@ -4,8 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { Component, Property } from '@wonderlandengine/api';
-import { property } from '@wonderlandengine/api/decorators.js';
+import { Component, property, } from '@wonderlandengine/api';
 import { Tilemap } from '../classes/Tilemap.js';
 import { TileInteract } from './tile-interact.js';
 /**
@@ -18,6 +17,56 @@ import { TileInteract } from './tile-interact.js';
  * `onTileHover` and `onTileUnhover` to implement game-specific behaviour.
  */
 export class GenerateMapBase extends Component {
+    constructor() {
+        super(...arguments);
+        this._currentHoveredTile = null;
+        /**
+         * Map dimensions as a [width, height] pair. Default is [10, 10].
+         *
+         * This is shown in the editor as a vector2 property.
+         */
+        this.dimensions = [10, 10];
+        this.tileSize = [1, 1];
+        this.offset = [0, 0];
+        /**
+         * When true, the component will add/lookup a TileInteract component on
+         * the same object and wire its events to this class' handlers.
+         */
+        this.interactive = true;
+        /**
+         * Optional TileInteract instance attached to the same object. Only set
+         * when `interactive` is true and the component is present or added.
+         *
+         * This field is private to prevent external mutation.
+         */
+        this._tileInteract = undefined;
+        /**
+         * Internal click event handler that forwards to `onTileClick` hook.
+         *
+         * Kept as a private arrow property so we can add/remove the same
+         * function reference to Wonderland event lists.
+         */
+        this._onTileClick = (tile) => {
+            this.onTileClick(tile);
+        };
+        /**
+         * Internal hover event handler that forwards to `onTileHover` hook.
+         */
+        this._onTileHover = (tile) => {
+            this._currentHoveredTile = tile;
+            this.onTileHover(tile);
+        };
+        /**
+         * Internal unhover event handler that forwards to `onTileUnhover` hook.
+         */
+        this._onTileUnhover = (tile) => {
+            this._currentHoveredTile = null;
+            this.onTileUnhover(tile);
+        };
+    }
+    get currentHoveredTile() {
+        return this._currentHoveredTile;
+    }
     /**
      * Ensure the `TileInteract` component is registered with the engine.
      * Wonderland's component registration is static per-engine, so we register
@@ -30,37 +79,6 @@ export class GenerateMapBase extends Component {
             engine.registerComponent(TileInteract);
         }
     }
-    /**
-     * Array of Object3D references used as tile visuals or templates.
-     *
-     * Marked with @property.array so it is editable inside the editor.
-     */
-    tileObjects;
-    /**
-     * Map dimensions as a [width, height] pair. Default is [10, 10].
-     *
-     * This is shown in the editor as a vector2 property.
-     */
-    dimensions = [10, 10];
-    tileSize = [1, 1];
-    offset = [0, 0];
-    /**
-     * When true, the component will add/lookup a TileInteract component on
-     * the same object and wire its events to this class' handlers.
-     */
-    interactive = true;
-    /**
-     * The underlying Tilemap instance that stores the grid data. This is
-     * created during `start()`.
-     */
-    tilemap;
-    /**
-     * Optional TileInteract instance attached to the same object. Only set
-     * when `interactive` is true and the component is present or added.
-     *
-     * This field is private to prevent external mutation.
-     */
-    _tileInteract;
     /**
      * Component lifecycle `start` hook.
      *
@@ -106,27 +124,6 @@ export class GenerateMapBase extends Component {
         }
     }
     /**
-     * Internal click event handler that forwards to `onTileClick` hook.
-     *
-     * Kept as a private arrow property so we can add/remove the same
-     * function reference to Wonderland event lists.
-     */
-    _onTileClick = (tile) => {
-        this.onTileClick(tile);
-    };
-    /**
-     * Internal hover event handler that forwards to `onTileHover` hook.
-     */
-    _onTileHover = (tile) => {
-        this.onTileHover(tile);
-    };
-    /**
-     * Internal unhover event handler that forwards to `onTileUnhover` hook.
-     */
-    _onTileUnhover = (tile) => {
-        this.onTileUnhover(tile);
-    };
-    /**
      * Hook called when a tile is clicked. Subclasses should override this to
      * react to click events on individual tiles.
      *
@@ -148,9 +145,7 @@ export class GenerateMapBase extends Component {
      */
     onTileUnhover(tile) { }
 }
-__decorate([
-    property.array(Property.object({ required: true }))
-], GenerateMapBase.prototype, "tileObjects", void 0);
+GenerateMapBase.TypeName = 'generate-map-base';
 __decorate([
     property.vector2(10, 10)
 ], GenerateMapBase.prototype, "dimensions", void 0);

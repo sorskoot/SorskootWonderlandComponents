@@ -17,9 +17,48 @@ import { InputManager, KeyEventType, KeyType } from './InputManager.js';
  * keyboard events through the standardized input system.
  */
 export class KeyboardController extends Component {
-    static TypeName = 'keyboard-controller';
-    // Singleton instance
-    static _instance = null;
+    constructor() {
+        super(...arguments);
+        this._upCodes = ['KeyW', 'ArrowUp', 'Numpad8'];
+        this._downCodes = ['KeyS', 'ArrowDown', 'Numpad2'];
+        this._leftCodes = ['KeyA', 'ArrowLeft', 'Numpad4'];
+        this._rightCodes = ['KeyD', 'ArrowRight', 'Numpad6'];
+        this._spaceCodes = ['Space'];
+        this._escapeCodes = ['Escape'];
+        this._keyboardMap = new Map([
+            [KeyType.Up, this._upCodes],
+            [KeyType.Down, this._downCodes],
+            [KeyType.Left, this._leftCodes],
+            [KeyType.Right, this._rightCodes],
+            [KeyType.Button1, this._spaceCodes],
+            [KeyType.Back, this._escapeCodes],
+        ]);
+        this._pressedKeys = {};
+        /**
+         * Event handler for keydown events
+         * @param event The keyboard event
+         */
+        this._onKeyDown = (event) => {
+            const keyType = this._getTypeFromCode(event.code);
+            if (keyType === undefined || this._pressedKeys[keyType]) {
+                /* key was already pressed or not mapped */
+                return;
+            }
+            this._pressedKeys[keyType] = KeyboardController.KeyPressState.Pressed;
+        };
+        /**
+         * Event handler for keyup events
+         * @param event The keyboard event
+         */
+        this._onKeyUp = (event) => {
+            const keyType = this._getTypeFromCode(event.code);
+            if (keyType !== undefined &&
+                this._pressedKeys[keyType] &&
+                this._pressedKeys[keyType] !== KeyboardController.KeyPressState.Up) {
+                this._pressedKeys[keyType] = KeyboardController.KeyPressState.Up;
+            }
+        };
+    }
     /**
      * Gets the singleton instance of KeyboardController
      * @throws Error if the instance hasn't been initialized yet
@@ -30,22 +69,6 @@ export class KeyboardController extends Component {
         }
         return KeyboardController._instance;
     }
-    _inputManager;
-    _upCodes = ['KeyW', 'ArrowUp', 'Numpad8'];
-    _downCodes = ['KeyS', 'ArrowDown', 'Numpad2'];
-    _leftCodes = ['KeyA', 'ArrowLeft', 'Numpad4'];
-    _rightCodes = ['KeyD', 'ArrowRight', 'Numpad6'];
-    _spaceCodes = ['Space'];
-    _escapeCodes = ['Escape'];
-    _keyboardMap = new Map([
-        [KeyType.Up, this._upCodes],
-        [KeyType.Down, this._downCodes],
-        [KeyType.Left, this._leftCodes],
-        [KeyType.Right, this._rightCodes],
-        [KeyType.Button1, this._spaceCodes],
-        [KeyType.Back, this._escapeCodes],
-    ]);
-    _pressedKeys = {};
     /**
      * Initialize the component and setup the singleton instance
      */
@@ -133,30 +156,6 @@ export class KeyboardController extends Component {
         return undefined;
     }
     /**
-     * Event handler for keydown events
-     * @param event The keyboard event
-     */
-    _onKeyDown = (event) => {
-        const keyType = this._getTypeFromCode(event.code);
-        if (keyType === undefined || this._pressedKeys[keyType]) {
-            /* key was already pressed or not mapped */
-            return;
-        }
-        this._pressedKeys[keyType] = KeyboardController.KeyPressState.Pressed;
-    };
-    /**
-     * Event handler for keyup events
-     * @param event The keyboard event
-     */
-    _onKeyUp = (event) => {
-        const keyType = this._getTypeFromCode(event.code);
-        if (keyType !== undefined &&
-            this._pressedKeys[keyType] &&
-            this._pressedKeys[keyType] !== KeyboardController.KeyPressState.Up) {
-            this._pressedKeys[keyType] = KeyboardController.KeyPressState.Up;
-        }
-    };
-    /**
      * Clean up when component is destroyed
      */
     onDestroy() {
@@ -165,6 +164,9 @@ export class KeyboardController extends Component {
         }
     }
 }
+KeyboardController.TypeName = 'keyboard-controller';
+// Singleton instance
+KeyboardController._instance = null;
 (function (KeyboardController) {
     /**
      * States a key can be in during processing

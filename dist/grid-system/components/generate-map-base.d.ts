@@ -1,4 +1,4 @@
-import { Component, Object3D, WonderlandEngine } from '@wonderlandengine/api';
+import { Component, WonderlandEngine } from '@wonderlandengine/api';
 import { CellData, Tilemap } from '../classes/Tilemap.js';
 /**
  * Base component for generating a tile map and wiring optional interaction.
@@ -10,6 +10,9 @@ import { CellData, Tilemap } from '../classes/Tilemap.js';
  * `onTileHover` and `onTileUnhover` to implement game-specific behaviour.
  */
 export declare class GenerateMapBase<T extends CellData> extends Component {
+    static TypeName: string;
+    protected get currentHoveredTile(): T | null;
+    private _currentHoveredTile;
     /**
      * Ensure the `TileInteract` component is registered with the engine.
      * Wonderland's component registration is static per-engine, so we register
@@ -18,12 +21,6 @@ export declare class GenerateMapBase<T extends CellData> extends Component {
      * @param engine - The WonderlandEngine instance being used.
      */
     static onRegister(engine: WonderlandEngine): void;
-    /**
-     * Array of Object3D references used as tile visuals or templates.
-     *
-     * Marked with @property.array so it is editable inside the editor.
-     */
-    tileObjects: Object3D[];
     /**
      * Map dimensions as a [width, height] pair. Default is [10, 10].
      *
@@ -48,7 +45,7 @@ export declare class GenerateMapBase<T extends CellData> extends Component {
      *
      * This field is private to prevent external mutation.
      */
-    private _tileInteract?;
+    private _tileInteract;
     /**
      * Component lifecycle `start` hook.
      *

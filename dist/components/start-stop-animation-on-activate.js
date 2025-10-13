@@ -6,7 +6,6 @@ import { AnimationComponent, Component } from '@wonderlandengine/api';
  * Works only on Wonderland Animations
  */
 export class StartStopAnimationOnActivate extends Component {
-    static TypeName = 'start-stop-animation-on-activate';
     onActivate() {
         const animationC = this.object.getComponent(AnimationComponent);
         if (animationC) {
@@ -20,3 +19,4 @@ export class StartStopAnimationOnActivate extends Component {
         }
     }
 }
+StartStopAnimationOnActivate.TypeName = 'start-stop-animation-on-activate';

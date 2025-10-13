@@ -18,6 +18,14 @@ import {TileInteract} from './tile-interact.js';
  * `onTileHover` and `onTileUnhover` to implement game-specific behaviour.
  */
 export class GenerateMapBase<T extends CellData> extends Component {
+    static TypeName = 'generate-map-base';
+
+    protected get currentHoveredTile(): T | null {
+        return this._currentHoveredTile;
+    }
+
+    private _currentHoveredTile: T | null = null;
+
     /**
      * Ensure the `TileInteract` component is registered with the engine.
      * Wonderland's component registration is static per-engine, so we register
@@ -30,14 +38,6 @@ export class GenerateMapBase<T extends CellData> extends Component {
             engine.registerComponent(TileInteract);
         }
     }
-
-    /**
-     * Array of Object3D references used as tile visuals or templates.
-     *
-     * Marked with @property.array so it is editable inside the editor.
-     */
-    @property.array(Property.object({required: true}))
-    tileObjects!: Object3D[];
 
     /**
      * Map dimensions as a [width, height] pair. Default is [10, 10].
@@ -134,6 +134,7 @@ export class GenerateMapBase<T extends CellData> extends Component {
      * Internal hover event handler that forwards to `onTileHover` hook.
      */
     private _onTileHover = (tile: CellData | null) => {
+        this._currentHoveredTile = tile as T | null;
         this.onTileHover(tile as T);
     };
 
@@ -141,6 +142,7 @@ export class GenerateMapBase<T extends CellData> extends Component {
      * Internal unhover event handler that forwards to `onTileUnhover` hook.
      */
     private _onTileUnhover = (tile: CellData | null) => {
+        this._currentHoveredTile = null;
         this.onTileUnhover(tile as T);
     };
 

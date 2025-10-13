@@ -3,18 +3,18 @@ import { Component } from '@wonderlandengine/api';
  * Component that manages time related functions based on the game loop.
  */
 export class TimerController extends Component {
-    static TypeName = 'timer-controller';
-    // Singleton
-    static _instance;
-    // The time in seconds since the first update.
-    _gameTime = 0;
-    _schedules = new Map();
-    _scheduleId = 0;
-    _lastSyncSysClock = 0;
-    _tickLength = 0;
-    _ticksPerSecond = 20; // Default value
-    renderPartialTicks = 0;
-    elapsedPartialTicks = 0;
+    constructor() {
+        super(...arguments);
+        // The time in seconds since the first update.
+        this._gameTime = 0;
+        this._schedules = new Map();
+        this._scheduleId = 0;
+        this._lastSyncSysClock = 0;
+        this._tickLength = 0;
+        this._ticksPerSecond = 20; // Default value
+        this.renderPartialTicks = 0;
+        this.elapsedPartialTicks = 0;
+    }
     static get instance() {
         return TimerController._instance;
     }
@@ -87,3 +87,4 @@ export class TimerController extends Component {
         return i;
     }
 }
+TimerController.TypeName = 'timer-controller';

@@ -49,28 +49,23 @@ private async transition(
 ```
  */
 export class FadeToBlack extends Component {
-    /** Component registration name in Wonderland Engine */
-    static TypeName = 'fade-to-black';
-    /**
-     * The object that will be faded
-     */
-    fadeObject;
-    /**
-     * Time in seconds for the fade transition
-     */
-    fadeTransitionTime = 0.5;
-    /**
-     * Color to fade to/from [r, g, b, a]
-     */
-    fadeColor = [0.0, 0.0, 0.0, 1.0];
-    /** Current transition state */
-    _transitionInProgress = TransitionType.None;
-    /** Material used for fading */
-    _fadeMaterial;
-    /** Current alpha value */
-    _alphaValue = 1.0;
-    /** Promise resolver function */
-    _resolve = () => { };
+    constructor() {
+        super(...arguments);
+        /**
+         * Time in seconds for the fade transition
+         */
+        this.fadeTransitionTime = 0.5;
+        /**
+         * Color to fade to/from [r, g, b, a]
+         */
+        this.fadeColor = [0.0, 0.0, 0.0, 1.0];
+        /** Current transition state */
+        this._transitionInProgress = TransitionType.None;
+        /** Current alpha value */
+        this._alphaValue = 1.0;
+        /** Promise resolver function */
+        this._resolve = () => { };
+    }
     /**
      * Initialize the component
      */
@@ -176,6 +171,8 @@ export class FadeToBlack extends Component {
         ]);
     }
 }
+/** Component registration name in Wonderland Engine */
+FadeToBlack.TypeName = 'fade-to-black';
 __decorate([
     property.object({ required: true })
 ], FadeToBlack.prototype, "fadeObject", void 0);

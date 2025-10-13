@@ -79,13 +79,16 @@ export abstract class PrefabsBase extends Component {
             return null;
         }
 
-        const clonedPrefab = prefab.clone(parent);
+        const clonedPrefab = prefab.clone();
 
         if (startActive) {
             wlUtils.setActive(clonedPrefab, true);
         }
 
         clonedPrefab.resetPositionRotation();
+        if (parent) {
+            clonedPrefab.parent = parent;
+        }
         return clonedPrefab;
     }
 }

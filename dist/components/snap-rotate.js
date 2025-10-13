@@ -8,11 +8,11 @@ import { Component, InputComponent } from "@wonderlandengine/api";
 import { property } from "@wonderlandengine/api/decorators.js";
 import { vec3 } from "gl-matrix";
 export class SnapRotate extends Component {
-    static TypeName = "snap-rotate";
-    player;
-    degrees;
-    input = null;
-    snapped = false;
+    constructor() {
+        super(...arguments);
+        this.input = null;
+        this.snapped = false;
+    }
     start() {
         this.input = this.object.getComponent(InputComponent);
         this.snapped = false;
@@ -49,6 +49,7 @@ export class SnapRotate extends Component {
         this.player.translateLocal(newPos);
     }
 }
+SnapRotate.TypeName = "snap-rotate";
 __decorate([
     property.object()
 ], SnapRotate.prototype, "player", void 0);

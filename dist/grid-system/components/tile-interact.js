@@ -12,8 +12,55 @@ const ownPos = new Float32Array(3);
  * and `onUnhover` emitters.
  */
 export class TileInteract extends Component {
-    /** The registration name used by Wonderland. */
-    static TypeName = 'tile-interact';
+    constructor() {
+        super(...arguments);
+        /** Emitted when a tile is clicked. Provides the clicked CellData. */
+        this.onClick = new Emitter();
+        /** Emitted when the cursor moves over a new tile. */
+        this.onHover = new Emitter();
+        /** Emitted when the cursor leaves a previously hovered tile. */
+        this.onUnhover = new Emitter();
+        /**
+         * Internal click handler that looks up the tile under the cursor and
+         * notifies listeners via the `onClick` emitter.
+         */
+        this._onClick = (target, cursor) => {
+            if (!this.map) {
+                console.warn('TileInteract: No map assigned');
+                return;
+            }
+            if (!(cursor instanceof Cursor)) {
+                console.warn(`TileInteract: Only Cursor type is supported, received ${cursor.constructor.name}`);
+                return;
+            }
+            const relativePos = this._toRelativePos(cursor);
+            const tile = this.map.getTile(relativePos.x, relativePos.y);
+            this.onClick.notify(tile);
+        };
+        /** The previously hovered tile (or null). Used to emit unhover events. */
+        this._previousTile = null;
+        /**
+         * Internal move handler that emits `onHover` and `onUnhover` when the
+         * hovered tile changes.
+         */
+        this._onMove = (target, cursor) => {
+            if (!this.map) {
+                console.warn('TileInteract: No map assigned');
+                return;
+            }
+            const relativePos = this._toRelativePos(cursor);
+            const tile = this.map.getTile(relativePos.x, relativePos.y);
+            if (tile !== this._previousTile) {
+                if (this._previousTile) {
+                    this.onUnhover.notify(this._previousTile);
+                }
+                if (tile) {
+                    this.onHover.notify(tile);
+                }
+                this._previousTile = tile;
+            }
+        };
+    }
     /**
      * Ensure `CursorTarget` is registered with the engine. Called once when
      * the engine loads components.
@@ -25,38 +72,23 @@ export class TileInteract extends Component {
             engine.registerComponent(CursorTarget);
         }
     }
-    /** CursorTarget instance used to receive cursor events. */
-    _cursorTarget;
-    /**
-     * The Tilemap instance this component will query for tile data. When set
-     * the component will convert cursor world positions to tile coordinates
-     * and look up the corresponding tile.
-     */
-    map;
-    /** Emitted when a tile is clicked. Provides the clicked CellData. */
-    onClick = new Emitter();
-    /** Emitted when the cursor moves over a new tile. */
-    onHover = new Emitter();
-    /** Emitted when the cursor leaves a previously hovered tile. */
-    onUnhover = new Emitter();
     /**
      * start lifecycle: ensure physics is enabled and attach required
      * components (CursorTarget, PhysXComponent plane) if they are missing.
      */
     start() {
+        var _a, _b;
         if (!this.engine.physics) {
             console.error('TileInteract: Physics not enabled');
         }
         this._cursorTarget =
-            this.object.getComponent(CursorTarget) ??
-                this.object.addComponent(CursorTarget);
+            (_a = this.object.getComponent(CursorTarget)) !== null && _a !== void 0 ? _a : this.object.addComponent(CursorTarget);
         // Ensure a static PhysX plane exists for cursor raycasts.
-        const physx = this.object.getComponent(PhysXComponent) ??
-            this.object.addComponent(PhysXComponent, {
-                shape: Shape.Plane,
-                rotationOffset: [0.0, 0.0, 0.7071068286895752, 0.7071068286895752],
-                static: true,
-            });
+        const physx = (_b = this.object.getComponent(PhysXComponent)) !== null && _b !== void 0 ? _b : this.object.addComponent(PhysXComponent, {
+            shape: Shape.Plane,
+            rotationOffset: [0.0, 0.0, 0.7071068286895752, 0.7071068286895752],
+            static: true,
+        });
     }
     /**
      * When activated, subscribe to cursor click and move events.
@@ -84,51 +116,8 @@ export class TileInteract extends Component {
         }
         const cursorHitPos = cursor.cursorPos;
         this.object.getPositionWorld(ownPos);
-        console.log('ownPos', cursorHitPos[0], cursorHitPos[2]);
         return this.map.worldToTile(cursorHitPos[0], cursorHitPos[2]);
     }
-    /**
-     * Internal click handler that looks up the tile under the cursor and
-     * notifies listeners via the `onClick` emitter.
-     */
-    _onClick = (target, cursor) => {
-        if (!this.map) {
-            console.warn('TileInteract: No map assigned');
-            return;
-        }
-        if (!(cursor instanceof Cursor)) {
-            console.warn('TileInteract: Unsupported cursor type');
-            return;
-        }
-        const relativePos = this._toRelativePos(cursor);
-        const tile = this.map.getTile(relativePos.x, relativePos.y);
-        this.onClick.notify(tile);
-    };
-    /** The previously hovered tile (or null). Used to emit unhover events. */
-    _previousTile = null;
-    /**
-     * Internal move handler that emits `onHover` and `onUnhover` when the
-     * hovered tile changes.
-     */
-    _onMove = (target, cursor) => {
-        if (!this.map) {
-            console.warn('TileInteract: No map assigned');
-            return;
-        }
-        if (!(cursor instanceof Cursor)) {
-            console.warn('TileInteract: Unsupported cursor type');
-            return;
-        }
-        const relativePos = this._toRelativePos(cursor);
-        const tile = this.map.getTile(relativePos.x, relativePos.y);
-        if (tile !== this._previousTile) {
-            if (this._previousTile) {
-                this.onUnhover.notify(this._previousTile);
-            }
-            if (tile) {
-                this.onHover.notify(tile);
-            }
-            this._previousTile = tile;
-        }
-    };
 }
+/** The registration name used by Wonderland. */
+TileInteract.TypeName = 'tile-interact';

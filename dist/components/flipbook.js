@@ -7,8 +7,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { Component, MeshComponent, } from '@wonderlandengine/api';
 import { property } from '@wonderlandengine/api/decorators.js';
 class DynamicTextureCache {
-    _textures;
-    _engine;
     constructor(engine) {
         this._textures = {};
         this._engine = engine;
@@ -60,37 +58,35 @@ class DynamicTextureCache {
 }
 let textureCache;
 export class Flipbook extends Component {
-    static TypeName = 'flipbook';
-    /**
-     * Base material to clone for each frame
-     */
-    base;
-    /**
-     * URL to the sprite sheet texture
-     */
-    url = '';
-    /**
-     * URL to the emissive sprite sheet texture (optional)
-     */
-    urlEmissive = '';
-    /**
-     * Number of columns in the sprite sheet
-     */
-    columns = 4;
-    /**
-     * Number of rows in the sprite sheet
-     */
-    rows = 4;
-    /**
-     * Animation speed in frames per second
-     */
-    speed = 8.0;
-    _textures = [];
-    _loaded = false;
-    _index = 0;
-    _previousIndex = -1;
-    _meshComponent = null;
-    _time = 0;
+    constructor() {
+        super(...arguments);
+        /**
+         * URL to the sprite sheet texture
+         */
+        this.url = '';
+        /**
+         * URL to the emissive sprite sheet texture (optional)
+         */
+        this.urlEmissive = '';
+        /**
+         * Number of columns in the sprite sheet
+         */
+        this.columns = 4;
+        /**
+         * Number of rows in the sprite sheet
+         */
+        this.rows = 4;
+        /**
+         * Animation speed in frames per second
+         */
+        this.speed = 8.0;
+        this._textures = [];
+        this._loaded = false;
+        this._index = 0;
+        this._previousIndex = -1;
+        this._meshComponent = null;
+        this._time = 0;
+    }
     init() {
         if (!textureCache) {
             textureCache = new DynamicTextureCache(this.engine);
@@ -167,6 +163,7 @@ export class Flipbook extends Component {
         }
     }
 }
+Flipbook.TypeName = 'flipbook';
 __decorate([
     property.material({ required: true })
 ], Flipbook.prototype, "base", void 0);

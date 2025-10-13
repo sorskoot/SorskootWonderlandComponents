@@ -4,11 +4,13 @@
  */
 const FRAC = 2.3283064365386963e-10; /* 2^-32 */
 export class RNG {
-    _seed = 0;
-    _s0 = 0;
-    _s1 = 0;
-    _s2 = 0;
-    _c = 0;
+    constructor() {
+        this._seed = 0;
+        this._s0 = 0;
+        this._s1 = 0;
+        this._s2 = 0;
+        this._c = 0;
+    }
     getSeed() {
         return this._seed;
     }

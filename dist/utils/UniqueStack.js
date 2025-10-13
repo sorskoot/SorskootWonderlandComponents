@@ -3,10 +3,12 @@
  * @template T The type of items stored in the stack.
  */
 export class UniqueStack {
-    /**
-     * Internal array to store unique items.
-     */
-    _items = [];
+    constructor() {
+        /**
+         * Internal array to store unique items.
+         */
+        this._items = [];
+    }
     /**
      * Pushes an item onto the stack if it is not already present.
      * @param item The item to push onto the stack.

@@ -61,7 +61,9 @@ export class AtomEntity {
      * }
      * ```
      */
-    getComponent<T extends AtomComponent>(componentType: {new (...args: any[]): T}): T | undefined {
+    getComponent<T extends AtomComponent>(componentType: {
+        new (...args: any[]): T;
+    }): T | undefined {
         for (const key in this._components) {
             if (this._components[key] instanceof componentType) {
                 return this._components[key] as T;
@@ -93,5 +95,17 @@ export class AtomEntity {
             }
         }
         return results;
+    }
+
+    /**
+     * Checks if the entity has at least one component of the specified type
+     * @template T - The component type to check
+     * @param {new (...args: any[]) => T} componentType - The constructor of the component type
+     * @returns {boolean} True if the entity has at least one component of the specified type, otherwise false
+     */
+    hasComponent<T extends AtomComponent>(componentType: {
+        new (...args: any[]): T;
+    }): boolean {
+        return !!this.getComponent(componentType);
     }
 }

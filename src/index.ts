@@ -12,6 +12,7 @@ export * from './components/abstract/prefab-base.js';
 export * from './components/simple-animations/simple-animation-base.js';
 export * from './components/simple-animations/tween-position-animation.js';
 export * from './components/simple-animations/tween-scale-animation.js';
+export * from './components/simple-animations/tween-rotation-animation.js';
 export * from './components/input/keyboard-controller.js';
 export * from './components/input/InputManager.js';
 export * from './components/timer-controller.js';
@@ -34,11 +35,14 @@ export * from './utils/misc.js';
 export * from './utils/mobile.js';
 export * from './utils/noise.js';
 export * from './utils/Assert.js';
-export * from './utils/Signal.js';
+export * from './utils/EventChannel.js';
+export * from './utils/EventBus.js';
 export * from './utils/MaterialPool.js';
 export * from './utils/ServiceLocator.js';
 export * from './utils/UniqueStack.js';
 export * from './utils/DataLoader.js';
+
+export * from './grid-system/index.js';
 
 export * from './coroutines/Coroutine.js';
 export * from './coroutines/CoroutineManager.js';

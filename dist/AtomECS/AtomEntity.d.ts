@@ -73,4 +73,13 @@ export declare class AtomEntity {
     getComponents<T extends AtomComponent>(componentType: {
         new (...args: any[]): T;
     }): T[];
+    /**
+     * Checks if the entity has at least one component of the specified type
+     * @template T - The component type to check
+     * @param {new (...args: any[]) => T} componentType - The constructor of the component type
+     * @returns {boolean} True if the entity has at least one component of the specified type, otherwise false
+     */
+    hasComponent<T extends AtomComponent>(componentType: {
+        new (...args: any[]): T;
+    }): boolean;
 }

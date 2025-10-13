@@ -28,20 +28,6 @@
  * ```
  */
 export class Tilemap {
-    /** Internal storage mapping "x,y" -> tile or null. */
-    _map = new Map();
-    /** Width of the map in tiles. 0 means uninitialized or dynamic. */
-    _width = 0;
-    /** Height of the map in tiles. 0 means uninitialized or dynamic. */
-    _height = 0;
-    /**
-     * Tile size in world units (width and height). Defaults to 1.
-     * These are private backing fields; use the getters/setter below.
-     */
-    _tileWidth = 1;
-    _tileHeight = 1;
-    _offsetX = 0;
-    _offsetY = 0;
     /**
      * Getters for dimensions. 0 means not initialized or zero size.
      */
@@ -74,6 +60,20 @@ export class Tilemap {
     }
     /** Create an empty Tilemap. Call `createMap` to initialize bounds. */
     constructor(tileWidth = 1, tileHeight = 1) {
+        /** Internal storage mapping "x,y" -> tile or null. */
+        this._map = new Map();
+        /** Width of the map in tiles. 0 means uninitialized or dynamic. */
+        this._width = 0;
+        /** Height of the map in tiles. 0 means uninitialized or dynamic. */
+        this._height = 0;
+        /**
+         * Tile size in world units (width and height). Defaults to 1.
+         * These are private backing fields; use the getters/setter below.
+         */
+        this._tileWidth = 1;
+        this._tileHeight = 1;
+        this._offsetX = 0;
+        this._offsetY = 0;
         // allow optional construction with tile size, still backwards-compatible
         this.setTileSize(tileWidth, tileHeight);
     }

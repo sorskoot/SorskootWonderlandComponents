@@ -4,11 +4,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { property } from '@wonderlandengine/api/decorators.js';
 import { SimpleAnimationBase } from './simple-animation-base.js';
-import { vec3 } from 'gl-matrix';
-// Temporary vector for calculations to avoid creating new objects every frame
-const tempVec3 = vec3.create();
+import { property } from '@wonderlandengine/api/decorators.js';
+import { quat } from 'gl-matrix';
+// Temporary quaternion for calculations to avoid creating new objects every frame
+const tempQuat = quat.create();
 /**
  * Component for animating an object's position between two points
  *
@@ -16,52 +16,49 @@ const tempVec3 = vec3.create();
  * from a starting position plus an offset (from) to a starting position plus
  * another offset (to). The starting position is captured when the component starts.
  */
-export class TweenPositionAnimation extends SimpleAnimationBase {
+export class TweenRotationAnimation extends SimpleAnimationBase {
     constructor() {
         super(...arguments);
         /**
-         * Starting position offset relative to the object's initial position
+         * Starting rotation offset relative to the object's initial rotation
          */
         this.from = [0, 0, 0];
         /**
-         * Ending position offset relative to the object's initial position
+         * Ending rotation offset relative to the object's initial rotation
          */
         this.to = [0, 0, 0];
         /**
-         * The object's initial position when animation starts
+         * The object's initial rotation when animation starts
          * @private
          */
-        this._startPosition = vec3.create();
+        this._startRotation = quat.create();
     }
     /**
-     * Initialize the component, capturing the object's initial position
+     * Initialize the component, capturing the object's initial rotation
      */
     start() {
         super.start();
-        this.object.getPositionLocal(this._startPosition);
+        this.object.getRotationLocal(this._startRotation);
     }
     /**
      * Called by SimpleAnimationBase with the current animation progress value
-     * Calculates and applies the interpolated position based on the animation progress
+     * Calculates and applies the interpolated rotation based on the animation progress
      *
      * @param value - Current animation value (0-1) with easing applied
      * @protected
      */
     onLerpUpdate(value) {
-        // Calculate the interpolated position
-        for (let i = 0; i < 3; i++) {
-            tempVec3[i] =
-                this._startPosition[i] + this.from[i] * (1 - value) + this.to[i] * value;
-        }
-        // Apply the position to the object
-        this.object.setPositionLocal(tempVec3);
+        // Calculate the interpolated rotation
+        quat.fromEuler(tempQuat, this.from[0] + (this.to[0] - this.from[0]) * value, this.from[1] + (this.to[1] - this.from[1]) * value, this.from[2] + (this.to[2] - this.from[2]) * value);
+        // Apply the rotation to the object
+        this.object.setRotationLocal(tempQuat);
     }
 }
-TweenPositionAnimation.TypeName = 'tween-position-animation';
-TweenPositionAnimation.InheritProperties = true;
+TweenRotationAnimation.TypeName = 'tween-rotation-animation';
+TweenRotationAnimation.InheritProperties = true;
 __decorate([
     property.vector3(0, 0, 0)
-], TweenPositionAnimation.prototype, "from", void 0);
+], TweenRotationAnimation.prototype, "from", void 0);
 __decorate([
     property.vector3(0, 0, 0)
-], TweenPositionAnimation.prototype, "to", void 0);
+], TweenRotationAnimation.prototype, "to", void 0);

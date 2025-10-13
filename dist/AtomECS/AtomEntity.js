@@ -19,11 +19,13 @@
  * ```
  */
 export class AtomEntity {
-    /**
-     * Map of components by their ID
-     * @private
-     */
-    _components = {};
+    constructor() {
+        /**
+         * Map of components by their ID
+         * @private
+         */
+        this._components = {};
+    }
     /**
      * Adds a component to the entity
      *
@@ -88,5 +90,14 @@ export class AtomEntity {
             }
         }
         return results;
+    }
+    /**
+     * Checks if the entity has at least one component of the specified type
+     * @template T - The component type to check
+     * @param {new (...args: any[]) => T} componentType - The constructor of the component type
+     * @returns {boolean} True if the entity has at least one component of the specified type, otherwise false
+     */
+    hasComponent(componentType) {
+        return !!this.getComponent(componentType);
     }
 }

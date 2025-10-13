@@ -16,9 +16,6 @@
  * TK: changed to module, and TS-file
  */
 class Grad {
-    x;
-    y;
-    z;
     constructor(x, y, z) {
         this.x = x;
         this.y = y;

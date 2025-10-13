@@ -5,22 +5,20 @@ import { wlUtils } from '../../utils/wlUtils.js';
  * Provides functionality to load, manage, and spawn prefabs from a specified bin file.
  */
 export class PrefabsBase extends Component {
-    static TypeName = 'prefabs-base';
-    /**
-     * Reference to the root object containing all prefabs
-     */
-    _prefabs;
+    constructor() {
+        super(...arguments);
+        /**
+         * Event emitter that notifies when prefabs are loaded
+         */
+        this.onPrefabsLoaded = new RetainEmitter();
+        this._isLoaded = false;
+    }
     /**
      * Gets the root object containing all prefabs
      */
     get prefabs() {
         return this._prefabs;
     }
-    /**
-     * Event emitter that notifies when prefabs are loaded
-     */
-    onPrefabsLoaded = new RetainEmitter();
-    _isLoaded = false;
     /**
      * Gets whether the prefabs have been loaded
      */
@@ -56,11 +54,15 @@ export class PrefabsBase extends Component {
             console.warn(`Spawning Failed. Prefab with name ${name} not found`);
             return null;
         }
-        const clonedPrefab = prefab.clone(parent);
+        const clonedPrefab = prefab.clone();
         if (startActive) {
             wlUtils.setActive(clonedPrefab, true);
         }
         clonedPrefab.resetPositionRotation();
+        if (parent) {
+            clonedPrefab.parent = parent;
+        }
         return clonedPrefab;
     }
 }
+PrefabsBase.TypeName = 'prefabs-base';

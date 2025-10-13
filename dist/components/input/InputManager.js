@@ -34,22 +34,22 @@ export var KeyType;
  * Implements the Singleton pattern for global access
  */
 export class InputManager {
-    static _instance;
     /**
      * Gets the singleton instance of InputManager
      */
     static get instance() {
-        return InputManager._instance ?? (InputManager._instance = new InputManager());
+        var _a;
+        return (_a = InputManager._instance) !== null && _a !== void 0 ? _a : (InputManager._instance = new InputManager());
     }
-    _lastTouch = {
-        position: vec2.create(),
-        type: KeyEventType.None,
-    };
-    _keyStatus = new Map();
     /**
      * Private constructor to enforce singleton pattern
      */
     constructor() {
+        this._lastTouch = {
+            position: vec2.create(),
+            type: KeyEventType.None,
+        };
+        this._keyStatus = new Map();
         this._reset();
     }
     /**
