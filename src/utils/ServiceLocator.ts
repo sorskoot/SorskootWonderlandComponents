@@ -1,20 +1,16 @@
 /**
  * Determines whether the provided constructor represents a Wonderland Component class.
+ * It is not 100% foolproof but works for typical usage. It checks for the presence of a static `TypeName` string property.
  *
  * @param token - The constructor function or class to check.
- * @returns True if `token` is the Wonderland Component base or a subclass thereof; otherwise false.
+ * @returns True if `token` is the Wonderland Component; otherwise false.
  */
 function isComponentClass(token: unknown): boolean {
-    if (typeof token !== 'function') return false;
-    let proto = (token as Function).prototype;
-    while (proto) {
-        const ctor = proto.constructor;
-        if (ctor && typeof ctor.name === 'string' && ctor.name === '_Component') {
-            return true;
-        }
-        proto = Object.getPrototypeOf(proto);
-    }
-    return false;
+    return (
+        typeof token === 'function' &&
+        'TypeName' in token &&
+        typeof (token as any).TypeName === 'string'
+    );
 }
 
 const ORIGINAL_CLASS = Symbol('original-class');
@@ -145,7 +141,9 @@ class SL {
                     SL.registry.set(normalized, instance);
                 } catch (err) {
                     throw new Error(
-                        `ServiceLocator: Failed to construct ${normalized.name}: ${(err as Error).message}`
+                        `ServiceLocator: Failed to construct ${normalized.name}: ${
+                            (err as Error).message
+                        }`
                     );
                 }
             } else {
@@ -209,4 +207,5 @@ export const ServiceLocator = {
     registerComponent,
     get: SL.get,
     clear: SL.clear,
+    registerInstance: SL.register,
 };
