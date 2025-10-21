@@ -51,12 +51,23 @@ export class RNG {
     /**
      * @param {number} lowerBound The lower end of the range to return a value from, inclusive
      * @param {number} upperBound The upper end of the range to return a value from, inclusive
-     * @returns Pseudorandom value [lowerBound, upperBound], using ROT.RNG.getUniform() to distribute the value
+     * @returns Pseudorandom value [lowerBound, upperBound], using RNG.getUniform() to distribute the value
      */
     getUniformInt(lowerBound: number, upperBound: number) {
         let max = Math.max(lowerBound, upperBound);
         let min = Math.min(lowerBound, upperBound);
         return Math.floor(this.getUniform() * (max - min + 1)) + min;
+    }
+
+    /**
+     * @param {number} lowerBound The lower end of the range to return a value from, inclusive
+     * @param {number} upperBound The upper end of the range to return a value from, inclusive
+     * @returns Pseudorandom value [lowerBound, upperBound], using RNG.getUniform() to distribute the value
+     */
+    getUniformFloat(lowerBound: number, upperBound: number) {
+        let max = Math.max(lowerBound, upperBound);
+        let min = Math.min(lowerBound, upperBound);
+        return this.getUniform() * (max - min) + min;
     }
 
     /**
