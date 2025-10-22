@@ -12,6 +12,7 @@ export * from './components/abstract/prefab-base.js';
 export * from './components/simple-animations/simple-animation-base.js';
 export * from './components/simple-animations/tween-position-animation.js';
 export * from './components/simple-animations/tween-scale-animation.js';
+export * from './components/simple-animations/tween-rotation-animation.js';
 export * from './components/input/keyboard-controller.js';
 export * from './components/input/InputManager.js';
 export * from './components/timer-controller.js';
